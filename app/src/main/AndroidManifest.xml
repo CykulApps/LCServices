@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.cykulapps.lcservices">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <uses-feature android:name="android.hardware.camera" />
+
+    <uses-permission android:name="android.permission.FLASHLIGHT" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
+    <application
+        android:name=".utils.MyApplication"
+        android:icon="@mipmap/lc_app_logo"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/lc_app_logo"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name=".activities.DepartmentActivity"
+            android:screenOrientation="sensorPortrait" />
+        <activity
+            android:name=".activities.CommonAdmin"
+            android:screenOrientation="sensorPortrait" />
+        <activity
+            android:name=".login.CpLoginActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".activities.CpDepartmentActivity"
+            android:label="CP Services-Events"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.CpSubDepartmentActivity"
+            android:label="CP Services-Activities"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.QRCodeResultsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.QRCodeReader"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.QRCodeReader1"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".helper.ScannerActivity"
+            android:screenOrientation="sensorPortrait" />
+        <activity
+            android:name=".helper.MessageActivity"
+            android:screenOrientation="sensorPortrait" />
+        <activity
+            android:name=".activities.SubActivities"
+            android:screenOrientation="sensorPortrait" />
+        <activity
+            android:name=".activities.CpSplashScreen"
+            android:screenOrientation="sensorPortrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".SplashScreen"></activity>
+        <activity
+            android:name=".ticketing.HomeActivity"
+            android:screenOrientation="sensorPortrait"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".ticketing.CardDetailsActivity"
+            android:screenOrientation="sensorPortrait" />
+        <activity
+            android:name=".activities.SubDepartmentActivity"
+            android:screenOrientation="sensorPortrait" />
+        <activity
+            android:name=".ticketing.RenewalActivity"
+            android:screenOrientation="sensorPortrait" />
+        <activity
+            android:name=".ticketing.CardScanActivity"
+            android:screenOrientation="sensorPortrait" />
+
+        <activity android:name=".individualtask.Dashboard" />
+        <activity android:name=".individualtask.AddMoney" />
+        <activity android:name=".individualtask.CheckBalance"/>
+
+        <activity
+            android:name=".login.LoginActivity"
+            android:screenOrientation="sensorPortrait">
+
+
+        </activity>
+    </application>
+
+</manifest>

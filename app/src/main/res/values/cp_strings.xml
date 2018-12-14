@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE resources[<!ENTITY CP_BASE_URL "http://13.126.20.47/app/cpservices/">]>
+<resources>
+    <!-- TODO: For CP services -->
+    <string name="EVENTS">&CP_BASE_URL;departments/loadDepartments.php</string>
+    <string name="SUBDEPARTMENTS">&CP_BASE_URL;departments/loadSubDepartments.php</string>
+    <string name="LOGIN">&CP_BASE_URL;registration/login.php</string>
+    <string name="QR_Scan">&CP_BASE_URL;activity/nygactivity.php</string>
+    <string name="dashboard">&CP_BASE_URL;registration/displayDashboard.php</string>
+    <string name="QR_Scan1">&CP_BASE_URL;activity/performActivity.php</string>
+    <string name="please_enter_first_name">Please enter Username</string>
+    <string name="please_enter_last_name">Please enter Password</string>
+    <string name="addmoney">&CP_BASE_URL;registration/updateBalance.php</string>
+    <string name="checkBalance">&CP_BASE_URL;registration/checkBalance.php</string>
+</resources>

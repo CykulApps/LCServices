@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffff"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/imageview"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:visibility="visible"
+        android:scaleType="fitXY"
+        android:src="@drawable/tick" />
+
+    <!--<LinearLayout-->
+        <!--android:id="@+id/imageLayout"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_gravity="center"-->
+        <!--android:gravity="center"-->
+        <!--android:layout_marginTop="@dimen/_15sdp"-->
+        <!--android:orientation="horizontal">-->
+    <!--</LinearLayout>-->
+
+    <com.cykulapps.cpservices.views.CustomTextView
+        android:id="@+id/textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/_16sdp"
+        android:gravity="center"
+        android:paddingLeft="@dimen/_14sdp"
+        android:paddingRight="@dimen/_14sdp"
+        android:text=""
+        android:textColor="#925375"
+        android:textSize="@dimen/_23sdp" />
+
+    <com.cykulapps.cpservices.views.CustomButton
+        android:id="@+id/scanagain"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="@dimen/_10sdp"
+        android:layout_marginLeft="@dimen/_20sdp"
+        android:layout_marginRight="@dimen/_20sdp"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:background="@drawable/facebook_button"
+        android:gravity="center"
+        android:padding="@dimen/_10sdp"
+        android:text="scan again"
+        android:textAllCaps="true"
+        android:textColor="@color/darkGrey"
+        android:textSize="@dimen/_16sdp" />
+</LinearLayout>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE resources [<!ENTITY BASE_URL "https://www.cykul.com/lifecykulservices/" ><!ENTITY APP_URL "http://13.126.20.47/app/cykulpelotons/">]>
+
+<resources>
+
+    <string name="app_name">LC Services</string>
+    <string name="login">&BASE_URL;login.php</string>
+    <string name="scanRider">&BASE_URL;adminScan.php</string>
+    <string name="riderOperation">&BASE_URL;riderOperation.php</string>
+    <string name="fetchRides">&BASE_URL;fetchEventDetails.php</string>
+    <string name="fetchDepart">&BASE_URL;fetchEventDepartments.php</string>
+
+    <string name="fontname">fonts/Lato-Regular.ttf</string>
+    <string name="fontname_aa">fonts/Lato-Regular.ttf</string>
+    <string name="fontname_bold">fonts/Lato-Medium.ttf</string>
+    <string name="fontname_light">fonts/Lato-Light.ttf</string>
+    <string name="renewal"><u>Renewal</u></string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+
+
+</resources>

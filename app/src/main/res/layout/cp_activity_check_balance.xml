@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".individualtask.CheckBalance">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/appbar"
+        android:elevation="@dimen/_8sdp"
+        android:background="@color/colorPrimary"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        tools:targetApi="lollipop">
+        <android.support.v7.widget.Toolbar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/toolbar">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Check Balance"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/_16sdp"/>
+        </android.support.v7.widget.Toolbar>
+    </android.support.design.widget.AppBarLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/last_name_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_20sdp"
+            android:layout_marginRight="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:layout_weight="1.5"
+            app:errorTextAppearance="@color/colorBtn">
+
+            <com.cykulapps.lcservices.views.CustomEditText
+                android:id="@+id/etbib"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter BIB NO"
+                android:inputType="number"
+                android:maxLines="1"
+                android:paddingLeft="@dimen/_8sdp"
+                android:singleLine="true"
+                android:textSize="@dimen/_16sdp" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <com.cykulapps.lcservices.views.CustomButton
+            android:id="@+id/go"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_20sdp"
+            android:layout_marginRight="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:background="@color/syfYello"
+            android:text="GO" />
+
+    </LinearLayout>
+
+    <com.cykulapps.lcservices.views.CustomTextView
+        android:id="@+id/message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_50sdp"
+        android:gravity="center"
+        android:text="Hello"
+        android:textSize="@dimen/_20sdp"
+        android:visibility="invisible" />
+
+
+</LinearLayout>

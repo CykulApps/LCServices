@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorWhite"
+    tools:context=".login.LoginActivity"
+    android:focusableInTouchMode="true">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/appbar"
+        android:elevation="@dimen/_8sdp"
+        android:background="@color/colorPrimary"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        tools:targetApi="lollipop">
+        <android.support.v7.widget.Toolbar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/toolbar">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/app_name"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/_16sdp"/>
+        </android.support.v7.widget.Toolbar>
+    </android.support.design.widget.AppBarLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_margin="@dimen/_10sdp"
+        android:id="@+id/rl_layout"
+        android:background="@drawable/layout_bg">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_margin="@dimen/_15sdp">
+            <EditText
+                android:id="@+id/input_user"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_40sdp"
+                android:hint="Username"
+                android:singleLine="true"
+                android:layout_marginTop="@dimen/_40sdp"
+                android:inputType="textEmailAddress"
+                android:textSize="@dimen/_13sdp"
+                android:textColor="@color/colorWhite"
+                android:textColorHint="@color/colorWhite"
+                android:background="@drawable/edit_thick_bg"/>
+            <EditText
+                android:id="@+id/input_password"
+                android:inputType="textPassword"
+                android:background="@drawable/edit_thick_bg"
+                android:layout_width="match_parent"
+                android:singleLine="true"
+                android:textSize="@dimen/_13sdp"
+                android:textColor="@color/colorWhite"
+                android:textColorHint="@color/colorWhite"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:layout_height="@dimen/_40sdp"
+                android:hint="Password" />
+
+            <Button
+                android:onClick="checkCredentials"
+                android:textSize="@dimen/_14sdp"
+                android:background="@drawable/button_bg"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:layout_width="@dimen/_120sdp"
+                android:layout_height="@dimen/_40sdp"
+                android:text="Login"
+                android:layout_marginBottom="@dimen/_5sdp"
+                android:layout_gravity="center"
+                android:textColor="@color/colorBlack"/>
+        </LinearLayout>
+    </RelativeLayout>
+    <ImageView
+        android:layout_width="@dimen/_80sdp"
+        android:layout_height="@dimen/_80sdp"
+        android:background="@drawable/circle_bg"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/admin_white"
+        android:padding="@dimen/_20sdp"
+        android:layout_marginBottom="@dimen/_minus47sdp"
+        android:layout_above="@+id/rl_layout"/>
+
+</RelativeLayout>

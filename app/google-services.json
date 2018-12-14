@@ -1,0 +1,152 @@
+{
+  "project_info": {
+    "project_number": "15559065118",
+    "firebase_url": "https://cykul-1197.firebaseio.com",
+    "project_id": "cykul-1197",
+    "storage_bucket": "cykul-1197.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:15559065118:android:48b7306a63fe7e39",
+        "android_client_info": {
+          "package_name": "com.cykulapps.lcservices"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "15559065118-vie6man1sjcs8gac23f7r103bel1qi1o.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCKwDr6k62uU9yTKAqYigNfay7c9MB7TMk"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:15559065118:android:170e477b9bcba395",
+        "android_client_info": {
+          "package_name": "com.cykultech02.cykulpelotons"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "15559065118-1hvb6domscd9b4imlm14gr45u6gfpe7h.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.cykultech02.cykulpelotons",
+            "certificate_hash": "8931a998c3f1fa30a464cd64516ca1e164524da7"
+          }
+        },
+        {
+          "client_id": "15559065118-vie6man1sjcs8gac23f7r103bel1qi1o.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCKwDr6k62uU9yTKAqYigNfay7c9MB7TMk"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "15559065118-vie6man1sjcs8gac23f7r103bel1qi1o.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "15559065118-6j60nnjb30hfa07tnupnpthijdk7m09s.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.cykul.CykulPelotonsapp"
+              }
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:15559065118:android:0d9e59496b3e07ed",
+        "android_client_info": {
+          "package_name": "com.syf.just_engage"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "15559065118-8pg14nijodh3kqo8k93m6emsfd2haupp.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.syf.just_engage",
+            "certificate_hash": "19c3f6c6c8ec152137d2ef8c8cd510594d7c5a63"
+          }
+        },
+        {
+          "client_id": "15559065118-eddju7ja7cm251lnvpqimgrffmrd9o50.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.syf.just_engage",
+            "certificate_hash": "a1e1ee55187223a5e7812b9914bfc72ddebc299f"
+          }
+        },
+        {
+          "client_id": "15559065118-vie6man1sjcs8gac23f7r103bel1qi1o.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCKwDr6k62uU9yTKAqYigNfay7c9MB7TMk"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "15559065118-vie6man1sjcs8gac23f7r103bel1qi1o.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "15559065118-6j60nnjb30hfa07tnupnpthijdk7m09s.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.cykul.CykulPelotonsapp"
+              }
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
