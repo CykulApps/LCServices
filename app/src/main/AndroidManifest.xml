@@ -22,41 +22,38 @@
             android:name=".activities.DepartmentActivity"
             android:screenOrientation="sensorPortrait" />
         <activity
-            android:name=".activities.CommonAdmin"
+            android:name=".activities.AdminMainActivity"
             android:screenOrientation="sensorPortrait" />
         <activity
-            android:name=".login.CpLoginActivity"
+            android:name=".login.LoginActivity"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".activities.CpDepartmentActivity"
+            android:name=".activities.EventsMainActivity"
             android:label="CP Services-Events"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activities.CpSubDepartmentActivity"
+            android:name=".activities.EventsSubActivity"
             android:label="CP Services-Activities"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activities.QRCodeResultsActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activities.QRCodeReader"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".activities.QRCodeReader1"
+            android:name=".helper.EventsScannerActivity"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".helper.ScannerActivity"
+            android:name=".helper.ParksScannerActivity"
             android:screenOrientation="sensorPortrait" />
         <activity
-            android:name=".helper.MessageActivity"
+            android:name=".helper.ScannerResultActivity"
             android:screenOrientation="sensorPortrait" />
         <activity
             android:name=".activities.SubActivities"
             android:screenOrientation="sensorPortrait" />
         <activity
-            android:name=".activities.CpSplashScreen"
+            android:name=".activities.SplashScreen"
             android:screenOrientation="sensorPortrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -86,12 +83,6 @@
         <activity android:name=".individualtask.AddMoney" />
         <activity android:name=".individualtask.CheckBalance"/>
 
-        <activity
-            android:name=".login.LoginActivity"
-            android:screenOrientation="sensorPortrait">
-
-
-        </activity>
     </application>
 
 </manifest>

@@ -14,6 +14,7 @@ public class Prefs {
 
 
     public static final String LOGGED_IN = "login";
+    public static final String LOGGED_IN_VENDEOR = "login_vendor";
     public static final String COUNTRY = "country";
     /**
      * Initialize the Prefs helper class to keep a reference to the

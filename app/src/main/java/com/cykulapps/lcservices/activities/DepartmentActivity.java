@@ -4,6 +4,7 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -42,8 +43,10 @@ import org.json.JSONObject;
 
 import com.cykulapps.lcservices.Config;
 import com.cykulapps.lcservices.PrefController;
-import com.cykulapps.lcservices.adapter.EventAdapter;
-import com.cykulapps.lcservices.login.CpLoginActivity;
+import com.cykulapps.lcservices.adapter.ParkAdapter;
+import com.cykulapps.lcservices.common.Prefs;
+import com.cykulapps.lcservices.helper.GridSpacingItemDecoration;
+import com.cykulapps.lcservices.login.LoginActivity;
 import com.cykulapps.lcservices.model.EventModel;
 import com.cykulapps.lcservices.R;
 import com.cykulapps.lcservices.utils.TLSSocketFactory;
@@ -58,7 +61,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-public class DepartmentActivity extends AppCompatActivity implements EventAdapter.ItemListener {
+public class DepartmentActivity extends AppCompatActivity implements ParkAdapter.ItemListener {
     private static final int MY_PERMISSIONS_REQUEST_CAMERA = 1;
     Context context;
     ProgressDialog progressDialog;
@@ -147,7 +150,7 @@ public class DepartmentActivity extends AppCompatActivity implements EventAdapte
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.mainmenu, menu);
+        inflater.inflate(R.menu.park_logout_menu, menu);
         return super.onCreateOptionsMenu(menu);
 
     }
@@ -160,6 +163,7 @@ public class DepartmentActivity extends AppCompatActivity implements EventAdapte
                 String logoutTime = sdf.format(new Date());
                 SharedPreferences sharedPreferences = getSharedPreferences("MyPref", MODE_PRIVATE);
                 String id = sharedPreferences.getString("rowID", null);
+                Prefs.logoutUser(getApplicationContext()); //added
                 Log.e("rowID", id+"");
                 sendData(logoutTime, id);
 
@@ -201,10 +205,18 @@ public class DepartmentActivity extends AppCompatActivity implements EventAdapte
                                     eventModel.setDeptName(deptName);
                                     eventModelArrayList.add(eventModel);
                                 }
-                                EventAdapter eventAdapter = new EventAdapter(eventModelArrayList, DepartmentActivity.this, DepartmentActivity.this);
-                                recyclerView.setAdapter(eventAdapter);
+
+                                int spanCount = 2;
+                                int spacing = getResources().getDimensionPixelOffset(R.dimen._12sdp);
+                                boolean includeEdge = true;
+                                GridSpacingItemDecoration itemDecoration = new GridSpacingItemDecoration(spanCount, spacing, includeEdge);
+                                recyclerView.removeItemDecoration(itemDecoration);
+                                recyclerView.addItemDecoration(itemDecoration);
+
+                                ParkAdapter parkAdapter = new ParkAdapter(eventModelArrayList, DepartmentActivity.this, DepartmentActivity.this);
+                                recyclerView.setAdapter(parkAdapter);
                                 recyclerView.setLayoutManager(new GridLayoutManager(context, 2));
-                                eventAdapter.notifyDataSetChanged();
+                                parkAdapter.notifyDataSetChanged();
 
 
                             } catch (JSONException e) {
@@ -306,7 +318,7 @@ public class DepartmentActivity extends AppCompatActivity implements EventAdapte
 
                                 if (result.equals("true")) {
 
-                                    startActivity(new Intent(DepartmentActivity.this, CpLoginActivity.class));
+                                    startActivity(new Intent(DepartmentActivity.this, LoginActivity.class));
                                     PrefController.savePrefs("login","fail",DepartmentActivity.this);
                                     finish();
 
@@ -340,6 +352,33 @@ public class DepartmentActivity extends AppCompatActivity implements EventAdapte
             requestQueue.add(stringRequest);
         } else {
             Utils.showDialog(this);
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        if(Prefs.getBoolean(Prefs.LOGGED_IN,false)){
+            startActivity(new Intent(getApplicationContext(), AdminMainActivity.class));
+        }else {
+            new android.support.v7.app.AlertDialog.Builder(this)
+                    //.setTitle("Really Exit?")
+                    .setMessage("Logout?")
+                    .setNegativeButton(android.R.string.no, null)
+                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+
+                        public void onClick(DialogInterface arg0, int arg1) {
+                            @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                            String logoutTime = sdf.format(new Date());
+                            SharedPreferences sharedPreferences = getSharedPreferences("MyPref", MODE_PRIVATE);
+                            String id = sharedPreferences.getString("rowID", null);
+                            Prefs.logoutUser(getApplicationContext()); //added
+                            startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+                            Log.e("rowID", id+"");
+                            sendData(logoutTime, id);
+                                finish();
+                        }
+                    }).create().show();
         }
     }
 

@@ -26,8 +26,9 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.cykulapps.lcservices.Config;
 import com.cykulapps.lcservices.R;
-import com.cykulapps.lcservices.adapter.EventAdapter;
-import com.cykulapps.lcservices.helper.ScannerActivity;
+import com.cykulapps.lcservices.adapter.ParkAdapter;
+import com.cykulapps.lcservices.helper.GridSpacingItemDecoration;
+import com.cykulapps.lcservices.helper.ParksScannerActivity;
 import com.cykulapps.lcservices.model.EventModel;
 import com.cykulapps.lcservices.model.SubActivityModel;
 import com.cykulapps.lcservices.overrideFonts;
@@ -42,7 +43,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SubActivities extends AppCompatActivity implements EventAdapter.ItemListener{
+public class SubActivities extends AppCompatActivity implements ParkAdapter.ItemListener{
     RecyclerView recyclerView;
     ProgressDialog progressDialog;
     SubActivityModel subActivityModel;
@@ -128,10 +129,17 @@ public class SubActivities extends AppCompatActivity implements EventAdapter.Ite
                                     eventModel.setDeptName(deptName);
                                     eventModelArrayList.add(eventModel);
                                 }
-                                EventAdapter eventAdapter = new EventAdapter(eventModelArrayList, SubActivities.this, SubActivities.this);
-                                recyclerView.setAdapter(eventAdapter);
+                                ParkAdapter parkAdapter = new ParkAdapter(eventModelArrayList, SubActivities.this, SubActivities.this);
+
+                                int spanCount = 2;
+                                int spacing = getResources().getDimensionPixelOffset(R.dimen._12sdp);
+                                boolean includeEdge = true;
+                                GridSpacingItemDecoration itemDecoration = new GridSpacingItemDecoration(spanCount, spacing, includeEdge);
+                                recyclerView.removeItemDecoration(itemDecoration);
+                                recyclerView.addItemDecoration(itemDecoration);
+                                recyclerView.setAdapter(parkAdapter);
                                 recyclerView.setLayoutManager(new GridLayoutManager(context, 2));
-                                eventAdapter.notifyDataSetChanged();
+                                parkAdapter.notifyDataSetChanged();
 
 
                             } catch (JSONException e) {
@@ -188,7 +196,7 @@ public class SubActivities extends AppCompatActivity implements EventAdapter.Ite
         editor2.putString("category",deptName);
         editor2.apply();
         if (category.equals("Scan")){
-            startActivity(new Intent(this, ScannerActivity.class).putExtra("eventID",eventID).putExtra("departID", departID));
+            startActivity(new Intent(this, ParksScannerActivity.class).putExtra("eventID",eventID).putExtra("departID", departID));
         }
     }
 

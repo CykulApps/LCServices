@@ -1,17 +1,22 @@
-package com.cykulapps.lcservices.activities;
+package com.cykulapps.lcservices.helper;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -26,59 +31,85 @@ import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.cykulapps.lcservices.Config;
 import com.cykulapps.lcservices.R;
+import com.cykulapps.lcservices.activities.QRCodeResultsActivity;
 import com.cykulapps.lcservices.common.Prefs;
+import com.cykulapps.lcservices.overrideFonts;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TimeZone;
 
 import me.dm7.barcodescanner.zbar.Result;
 import me.dm7.barcodescanner.zbar.ZBarScannerView;
 
-public class QRCodeReader1 extends AppCompatActivity implements ZBarScannerView.ResultHandler {
+public class EventsScannerActivity extends AppCompatActivity implements ZBarScannerView.ResultHandler {
 
     private ZBarScannerView mScannerView;
     ProgressDialog progressDialog;
-    String departmentID, qrCode,mDepID,other;
+    String eventID, qrCode,deptID,deptName,datetime_timstamp,time,department;
     AlertDialog alert11;
-    String riderID;
+    Calendar cal;
+    Date currentLocalTime;
+    DateFormat datetime, timeonly;
+    Toolbar toolbar;
 
+    @SuppressLint("SimpleDateFormat")
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-//        Bundle bundle = getIntent().getExtras();
-//        departmentID = bundle.getString("eventID");
-//        mDepID = bundle.getString("departmentID");
-        departmentID = Prefs.getString("eventID","");
-        mDepID = Prefs.getString("departmentID","");
+        //new added code added by Ashish
+        deptName = Prefs.getString("deptName","");
+        deptID = Prefs.getString("departmentID","");
+        eventID = Prefs.getString("eventID","");
+        department = Prefs.getString("eventSubDept","");
 
-        Log.e("Keys==>",departmentID + "==>"+ mDepID);
+        setContentView(R.layout.activity_scanner_common);
+        toolbar = findViewById(R.id.toolbar);
+        TextView textView = findViewById(R.id.appName);
+        setSupportActionBar(toolbar);
+        textView.setText(deptName);
+        overrideFonts fonts = new overrideFonts();
+        fonts.overrideFonts(this, getWindow().getDecorView());
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setElevation(0);
+        // Programmatically initialize the scanner view
         mScannerView = new ZBarScannerView(this);
-        setContentView(mScannerView);
+        ViewGroup contentFrame = findViewById(R.id.content_frame);
+        contentFrame.addView(mScannerView);
+
+        //get current time
+        cal = Calendar.getInstance(TimeZone.getTimeZone("GMT+5:30"));
+        currentLocalTime = cal.getTime();
+        datetime = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        timeonly = new SimpleDateFormat("HH:mm:ss");
+
+        time = timeonly.format(currentLocalTime); //current time
+        datetime_timstamp = datetime.format(cal.getTime()); //current time and date
 
     }
 
-
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu, menu);//Menu Resource, Menu
+        getMenuInflater().inflate(R.menu.menu_enter_data, menu);//Menu Resource, Menu
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-//        if (item.getItemId() == android.R.id.home) {
-//            if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
-//                getSupportFragmentManager().popBackStack();
-//            } else {
-//                finish();
-//            }
-//        }
+
         switch (item.getItemId()) {
             case R.id.scan:
+
                 View view = LayoutInflater.from(this).inflate(R.layout.enterdata, null);
                 AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
                 builder1.setTitle("LC Services");
@@ -90,33 +121,28 @@ public class QRCodeReader1 extends AppCompatActivity implements ZBarScannerView.
                 Button btn = view.findViewById(R.id.submit);
                 btn.setOnClickListener(new View.OnClickListener()
                 {
-
                     @Override
                     public void onClick(View view)
                     {
-
+                        mScannerView.stopCamera();
                         qrCode = bib.getText().toString().trim();
                         Log.e("riderID","no"+qrCode);
 
                         if (qrCode.isEmpty()) {
-                            Toast.makeText(QRCodeReader1.this, "Please enter bib no", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(EventsScannerActivity.this, "Please enter bib no", Toast.LENGTH_SHORT).show();
                         } else {
                             checkValidQRCode();
                             alert11.dismiss();
                         }
-
                     }
                 });
                 break;
 
             default:
                 return super.onOptionsItemSelected(item);
-
         }
         return true;
-
     }
-
 
     @Override
     public void onResume() {
@@ -138,12 +164,13 @@ public class QRCodeReader1 extends AppCompatActivity implements ZBarScannerView.
     }
 
     private void checkValidQRCode() {
+        mScannerView.stopCamera();
         progressDialog = new ProgressDialog(this);
         progressDialog.show();
         progressDialog.setMessage("Please Wait...");
         progressDialog.setCancelable(false);
         RequestQueue requestQueue = Volley.newRequestQueue(this);
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, getString(R.string.QR_Scan1),
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, Config.QR_SCAN1,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -155,12 +182,13 @@ public class QRCodeReader1 extends AppCompatActivity implements ZBarScannerView.
                             String status = rootObject.getString("result_status");
                             String msg = rootObject.getString("report_status");
                             Log.d("justengage", "" + response);
-                            Intent intent = new Intent(QRCodeReader1.this, QRCodeResultsActivity.class);
+                            time = timeonly.format(currentLocalTime); //current time
+                            datetime_timstamp = datetime.format(cal.getTime()); //current time and date
+                            Intent intent = new Intent(EventsScannerActivity.this, QRCodeResultsActivity.class);
                             intent.putExtra("msg", msg);
                             intent.putExtra("status", status);
                             startActivity(intent);
-                            QRCodeReader1.this.finish();
-
+                            EventsScannerActivity.this.finish();
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -172,11 +200,11 @@ public class QRCodeReader1 extends AppCompatActivity implements ZBarScannerView.
                     public void onErrorResponse(VolleyError error) {
                         progressDialog.dismiss();
                         if (error instanceof NoConnectionError) {
-                            Toast.makeText(QRCodeReader1.this, "Please check your Network", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(EventsScannerActivity.this, "Please check your Network", Toast.LENGTH_SHORT).show();
                         } else if (error instanceof NetworkError) {
-                            Toast.makeText(QRCodeReader1.this, "Please check your Network", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(EventsScannerActivity.this, "Please check your Network", Toast.LENGTH_SHORT).show();
                         } else if (error instanceof TimeoutError) {
-                            Toast.makeText(QRCodeReader1.this, "Please check your Network", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(EventsScannerActivity.this, "Please check your Network", Toast.LENGTH_SHORT).show();
                         } else if (error instanceof ParseError) {
                             //TODO
                         }
@@ -186,28 +214,14 @@ public class QRCodeReader1 extends AppCompatActivity implements ZBarScannerView.
             @Override
             protected Map<String, String> getParams() throws AuthFailureError
             {
-                if(!((departmentID.equals("FR2018"))|| (departmentID.equals("JR2018"))))
-                {
-                    Log.e("if","if");
-                    other=departmentID;
-                    departmentID="JR2018";
-                    Log.e("other","other"+other);
-                    Log.e("departmentID","departmentID"+departmentID);
-
-                }else
-                {
-                    Log.e("else","else");
-                    other=departmentID;
-                    Log.e("other","other"+other);
-                    Log.e("departmentID","departmentID"+departmentID);
-
-                }
-
                 Map<String, String> params = new HashMap<>();
-                params.put("eventID", departmentID);
-                params.put("departmentID",mDepID);
-                params.put("customerID", qrCode);
-                params.put("other",other);
+                params.put("eventID", eventID);
+                params.put("deptID",deptID);
+                params.put("deptName",deptName);
+                params.put("bibNumber", qrCode);
+                params.put("time",time);
+                params.put("timestamp",datetime_timstamp);
+                params.put("category",department);
                 Log.e("justengage","---->"+params);
                 return params;
 
@@ -216,5 +230,11 @@ public class QRCodeReader1 extends AppCompatActivity implements ZBarScannerView.
         requestQueue.add(stringRequest);
         DefaultRetryPolicy retryPolicy = new DefaultRetryPolicy(0 , -1 , DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
         stringRequest.setRetryPolicy(retryPolicy);
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        return super.onSupportNavigateUp();
     }
 }

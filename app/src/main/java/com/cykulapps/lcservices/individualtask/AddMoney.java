@@ -16,6 +16,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkError;
 import com.android.volley.NoConnectionError;
 import com.android.volley.ParseError;
@@ -26,30 +27,39 @@ import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.cykulapps.lcservices.Config;
 import com.cykulapps.lcservices.R;
-import com.cykulapps.lcservices.activities.CpDepartmentActivity;
+import com.cykulapps.lcservices.activities.EventsMainActivity;
 import com.cykulapps.lcservices.utils.Constants;
 import com.cykulapps.lcservices.utils.Utils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TimeZone;
 
 public class AddMoney extends AppCompatActivity {
     EditText etBibNO, etamount;
-    String bibno, amount, mode;
+    String bibno, amount, mode, localTime;
     ProgressDialog progressDialog;
     RadioButton cash, paytm, card;
     RadioGroup radioGroup;
     Button button;
+    Calendar cal;
+    Date currentLocalTime;
+    DateFormat date;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.cp_activity_add_money);
+        setContentView(R.layout.events_add_money);
         etBibNO = findViewById(R.id.bibno);
         etamount = findViewById(R.id.amount);
         cash = findViewById(R.id.radioButton1);
@@ -62,6 +72,14 @@ public class AddMoney extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setElevation(0);
+
+        //getcurrent time
+        cal = Calendar.getInstance(TimeZone.getTimeZone("GMT+1:00"));
+        currentLocalTime = cal.getTime();
+        date = new SimpleDateFormat("HH:mm:ss");
+        // you can get seconds by adding  "...:ss" to it
+        date.setTimeZone(TimeZone.getTimeZone("GMT+5:30"));
+        localTime = date.format(currentLocalTime);
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,6 +98,7 @@ public class AddMoney extends AppCompatActivity {
                     {
                         mode = "CARD";
                     }
+                    localTime = date.format(currentLocalTime);
                     addmoney();
 
                 } else {
@@ -104,14 +123,15 @@ public class AddMoney extends AppCompatActivity {
             progressDialog.show();
             progressDialog.setMessage("Please Wait...");
             RequestQueue requestQueue = Volley.newRequestQueue(this);
-            StringRequest stringRequest = new StringRequest(Request.Method.POST, getString(R.string.addmoney),
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, Config.UPDATE_BALANCE,
                     new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
                             try {
                                 progressDialog.dismiss();
-                                JSONObject rootObject = new JSONObject(response);
                                 Log.e("dept", "" + response);
+                                JSONObject rootObject = new JSONObject(response);
+
                                 String result_status = rootObject.getString(Constants.RESULT_STATUS);
                                 String report_status = rootObject.getString(Constants.REPORT_STATUS);
                                 if (result_status.equals(Constants.TRUE)) {
@@ -145,11 +165,18 @@ public class AddMoney extends AppCompatActivity {
                     params.put("bibno", bibno);
                     params.put("amount", amount);
                     params.put("mode", mode);
+                    params.put("time",localTime);
                     return params;
                 }
             };
 
             requestQueue.add(stringRequest);
+
+            DefaultRetryPolicy defaultRetryPolicy = new DefaultRetryPolicy(0,-1,DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+            stringRequest.setRetryPolicy(defaultRetryPolicy);
+            stringRequest.setShouldCache(false);
+
+
         } else
             Utils.showDialog(this);
     }
@@ -160,7 +187,7 @@ public class AddMoney extends AppCompatActivity {
                 .setCancelable(false)
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        context.startActivity(new Intent(AddMoney.this, CpDepartmentActivity.class));
+                        context.startActivity(new Intent(AddMoney.this, EventsMainActivity.class));
                         finish();
                         dialog.dismiss();
                     }
@@ -175,7 +202,7 @@ public class AddMoney extends AppCompatActivity {
         //Creating dialog box
         AlertDialog alert = builder.create();
         //Setting the title manually
-        alert.setTitle("CP Services");
+        alert.setTitle("LC Services");
         alert.show();
     }
 }

@@ -11,35 +11,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
-import com.cykulapps.lcservices.Config;
 import com.cykulapps.lcservices.R;
-import com.cykulapps.lcservices.helper.MessageActivity;
-import com.cykulapps.lcservices.helper.ScannerActivity;
 import com.cykulapps.lcservices.overrideFonts;
-import com.cykulapps.lcservices.utils.Utils;
 import com.google.android.gms.security.ProviderInstaller;
-
-import org.json.JSONObject;
-
-import java.util.HashMap;
-import java.util.Map;
 
 import me.dm7.barcodescanner.zbar.Result;
 import me.dm7.barcodescanner.zbar.ZBarScannerView;
@@ -60,7 +38,8 @@ public class CardScanActivity extends AppCompatActivity implements ZBarScannerVi
         super.onCreate(savedInstanceState);
         mScannerView = new ZBarScannerView(this);
         setContentView(R.layout.activity_card_scan);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         overrideFonts fonts = new overrideFonts();
         fonts.overrideFonts(this, getWindow().getDecorView());
@@ -78,15 +57,15 @@ public class CardScanActivity extends AppCompatActivity implements ZBarScannerVi
         eventID = sharedPreferences.getString("eventID", null);
         deptID = sharedPreferences.getString("departID", null);
         String appName = sharedPreferences.getString("category", null);
-        TextView tv_appName = (TextView)findViewById(R.id.appName);
+        TextView tv_appName = findViewById(R.id.appName);
         tv_appName.setText(appName);
 
 
     }
 
 
-
-   /* @Override
+/*
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.scan:
@@ -100,15 +79,13 @@ public class CardScanActivity extends AppCompatActivity implements ZBarScannerVi
                 final EditText bib = view.findViewById(R.id.et_bib);
                 bib.setHint("Enter Card Number");
                 Button btn = view.findViewById(R.id.submit);
-                btn.setOnClickListener(new View.OnClickListener()
-                {
+                btn.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onClick(View view)
-                    {
+                    public void onClick(View view) {
 
                         riderID = bib.getText().toString().trim();
-                       // sendretunintentent(riderID);
-                        Log.e("riderID","no"+riderID);
+                        // sendretunintentent(riderID);
+                        Log.e("riderID", "no" + riderID);
 
                         if (riderID.isEmpty()) {
                             Toast.makeText(CardScanActivity.this, "Please enter Card Number", Toast.LENGTH_SHORT).show();
@@ -122,12 +99,12 @@ public class CardScanActivity extends AppCompatActivity implements ZBarScannerVi
                 break;
             default:
                 return super.onOptionsItemSelected(item);
-*//*
-            case R.id.flash:
+
+            *//*case R.id.flash:
 
                 openFlash();
-                break;*//*
-
+                break;
+*//*
 
         }
         return true;

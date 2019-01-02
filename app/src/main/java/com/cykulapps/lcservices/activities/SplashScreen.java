@@ -16,10 +16,10 @@ import android.widget.LinearLayout;
 
 import com.cykulapps.lcservices.R;
 import com.cykulapps.lcservices.common.Prefs;
-import com.cykulapps.lcservices.login.CpLoginActivity;
+import com.cykulapps.lcservices.login.LoginActivity;
 
 
-public class CpSplashScreen extends Activity {
+public class SplashScreen extends Activity {
 
     private LinearLayout linearLayout;
 
@@ -55,13 +55,17 @@ public class CpSplashScreen extends Activity {
 
                 if (Prefs.getBoolean(Prefs.LOGGED_IN,false))
                 {
-                     startActivity(new Intent(CpSplashScreen.this, CommonAdmin.class));
-                     CpSplashScreen.this.finish();
+                     startActivity(new Intent(SplashScreen.this, AdminMainActivity.class));
+                     SplashScreen.this.finish();
+                }
+                else if(Prefs.getBoolean(Prefs.LOGGED_IN_VENDEOR,false)){
+                    startActivity(new Intent(SplashScreen.this, EventsSubActivity.class));
+                    SplashScreen.this.finish();
                 }
                 else
                 {
-                    startActivity(new Intent(CpSplashScreen.this, CpLoginActivity.class));
-                    CpSplashScreen.this.finish();
+                    startActivity(new Intent(SplashScreen.this, LoginActivity.class));
+                    SplashScreen.this.finish();
                 }
 
                 finish();

@@ -11,7 +11,8 @@
         android:layout_height="wrap_content"
         android:padding="@dimen/_10sdp"
         android:layout_margin="@dimen/_15sdp"
-        android:hint="Enter Card Number" />
+        android:hint="Enter Card Number"
+        android:inputType="number"/>
 
     <Button
         android:id="@+id/submit"

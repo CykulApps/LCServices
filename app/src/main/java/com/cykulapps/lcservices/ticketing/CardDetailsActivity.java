@@ -32,7 +32,6 @@ import com.cykulapps.lcservices.Config;
 
 import com.cykulapps.lcservices.R;
 import com.cykulapps.lcservices.activities.SubDepartmentActivity;
-import com.cykulapps.lcservices.helper.ScannerActivity;
 import com.cykulapps.lcservices.utils.Utils;
 import org.json.JSONException;
 import org.json.JSONObject;

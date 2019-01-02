@@ -9,33 +9,34 @@ import android.widget.ImageView;
 
 import com.cykulapps.lcservices.R;
 import com.cykulapps.lcservices.common.ImageCacheHandler;
-import com.cykulapps.lcservices.listeners.HomeItemListener;
+import com.cykulapps.lcservices.listeners.ParkItemListener;
 import com.cykulapps.lcservices.model.Response;
 
 import java.util.List;
 
-public class HomeItemsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class EventsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
 
     private final List<Response> mImagesOfficeList;
-    private final HomeItemListener homeItemListener;
+    private final ParkItemListener parkItemListener;
     private Context context;
 
-    public HomeItemsAdapter(Context context, List<Response> imagesOfficeList, HomeItemListener homeItemListener) {
+    public EventsAdapter(Context context, List<Response> imagesOfficeList, ParkItemListener parkItemListener) {
         this.mImagesOfficeList = imagesOfficeList;
         this.context = context;
-        this.homeItemListener = homeItemListener;
+        this.parkItemListener = parkItemListener;
     }
 
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new HomeItemsAdapter.DetailsViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.inflate_card, parent, false));
+        return new com.cykulapps.lcservices.adapter.EventsAdapter.DetailsViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.inflate_card, parent, false));
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
-        HomeItemsAdapter.DetailsViewHolder detailsViewHolder = (HomeItemsAdapter.DetailsViewHolder) holder;
+        com.cykulapps.lcservices.adapter.EventsAdapter.DetailsViewHolder detailsViewHolder = (com.cykulapps.lcservices.adapter.EventsAdapter.DetailsViewHolder) holder;
+
         final Response response = mImagesOfficeList.get(position);
         if (response != null ) {
             ImageCacheHandler.getInstance(context).setImage(detailsViewHolder.imageView, response.getDepartmentID(), response.getImage());
@@ -43,7 +44,7 @@ public class HomeItemsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             {
                 @Override
                 public void onClick(View v) {
-                    homeItemListener.itemClickListener(position,response);
+                    parkItemListener.itemClickListener(position,response);
                 }
             });
         }

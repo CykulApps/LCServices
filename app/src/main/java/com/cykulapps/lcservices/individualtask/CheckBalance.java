@@ -21,6 +21,7 @@ import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.cykulapps.lcservices.Config;
 import com.cykulapps.lcservices.R;
 import com.cykulapps.lcservices.utils.Constants;
 import com.cykulapps.lcservices.utils.Utils;
@@ -41,7 +42,7 @@ public class CheckBalance extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.cp_activity_check_balance);
+        setContentView(R.layout.events_check_balance);
         tvCheckBalance = findViewById(R.id.message);
         etbibno = findViewById(R.id.etbib);
         button = findViewById(R.id.go);
@@ -73,7 +74,7 @@ public class CheckBalance extends AppCompatActivity {
             progressDialog.show();
             progressDialog.setMessage("Please Wait...");
             RequestQueue requestQueue = Volley.newRequestQueue(this);
-            StringRequest stringRequest = new StringRequest(Request.Method.POST, getString(R.string.checkBalance),
+            StringRequest stringRequest = new StringRequest(Request.Method.POST,Config.CHECK_BALANCE,
                     new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {

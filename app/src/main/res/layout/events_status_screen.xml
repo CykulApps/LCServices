@@ -15,17 +15,7 @@
         android:scaleType="fitXY"
         android:src="@drawable/tick" />
 
-    <!--<LinearLayout-->
-        <!--android:id="@+id/imageLayout"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_gravity="center"-->
-        <!--android:gravity="center"-->
-        <!--android:layout_marginTop="@dimen/_15sdp"-->
-        <!--android:orientation="horizontal">-->
-    <!--</LinearLayout>-->
-
-    <com.cykulapps.cpservices.views.CustomTextView
+    <com.cykulapps.lcservices.views.CustomTextView
         android:id="@+id/textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -38,7 +28,7 @@
         android:textColor="#925375"
         android:textSize="@dimen/_23sdp" />
 
-    <com.cykulapps.cpservices.views.CustomButton
+    <com.cykulapps.lcservices.views.CustomButton
         android:id="@+id/scanagain"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

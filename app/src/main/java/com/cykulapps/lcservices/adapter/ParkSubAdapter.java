@@ -16,13 +16,13 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-public class SubActivityAdapter extends RecyclerView.Adapter<SubActivityAdapter.MyViewHolder> {
+public class ParkSubAdapter extends RecyclerView.Adapter<ParkSubAdapter.MyViewHolder> {
     Context context;
     ArrayList<SubActivityModel> subActivityModelArrayList;
     clickListener clickListener;
 
 
-    public SubActivityAdapter(Context context, ArrayList<SubActivityModel> subActivityModelArrayList, SubActivityAdapter.clickListener clickListener) {
+    public ParkSubAdapter(Context context, ArrayList<SubActivityModel> subActivityModelArrayList, ParkSubAdapter.clickListener clickListener) {
         this.context = context;
         this.subActivityModelArrayList = subActivityModelArrayList;
         this.clickListener = clickListener;
@@ -31,7 +31,7 @@ public class SubActivityAdapter extends RecyclerView.Adapter<SubActivityAdapter.
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_layout, null, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.inflate_card, null, false);
         return new MyViewHolder(view);
     }
 
@@ -58,12 +58,12 @@ public class SubActivityAdapter extends RecyclerView.Adapter<SubActivityAdapter.
         public MyViewHolder(View itemView) {
             super(itemView);
            // cardView = itemView.findViewById(R.id.card);
-            imageView = itemView.findViewById(R.id.iv);
+            imageView = itemView.findViewById(R.id.imageDepartment);
 
 
         }
 
-        public void bind(final String deptName, final SubActivityAdapter.clickListener clickListener) {
+        public void bind(final String deptName, final ParkSubAdapter.clickListener clickListener) {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

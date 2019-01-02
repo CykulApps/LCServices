@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.cykulapps.lcservices.R;
+import com.cykulapps.lcservices.helper.EventsScannerActivity;
 import com.cykulapps.lcservices.utils.Constants;
 import com.cykulapps.lcservices.views.CustomButton;
 
@@ -23,13 +24,14 @@ public class QRCodeResultsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.cp_status_screen);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        setContentView(R.layout.events_status_screen);
+
         String msg= getIntent().getStringExtra("msg");
         String status = getIntent().getStringExtra("status");
-        textView = (TextView) findViewById(R.id.textview);
-        imageView = (ImageView) findViewById(R.id.imageview);
-        rescan = (CustomButton) findViewById(R.id.scanagain);
+        textView = findViewById(R.id.textview);
+        imageView = findViewById(R.id.imageview);
+        rescan = findViewById(R.id.scanagain);
+
         if (status.equals(Constants.TRUE)) {
             textView.setText(msg);
             imageView.setImageResource(R.drawable.tick);
@@ -37,39 +39,11 @@ public class QRCodeResultsActivity extends AppCompatActivity {
             textView.setText(msg);
             imageView.setImageResource(R.drawable.exclamation);
         }
-//        RotateAnimation rotateAnimation = new RotateAnimation(0f, 360f,
-//                Animation.RELATIVE_TO_SELF, 0.5f,
-//                Animation.RELATIVE_TO_SELF, 0.5f);
-//        rotateAnimation.setInterpolator(new LinearInterpolator());
-//        rotateAnimation.setDuration(1500);
-//        rotateAnimation.setRepeatCount(Animation.INFINITE);
-//        LinearLayout layout = (LinearLayout) findViewById(R.id.imageLayout);
-//        if (msg.contains("beverage")){
-//            layout.setVisibility(View.VISIBLE);
-//            int mCount;
-//            if (!msg.replaceAll("[\\D]", "").equalsIgnoreCase("")) {
-//                mCount = Integer.parseInt(msg.replaceAll("[\\D]", ""));
-//            }else {
-//                mCount = 0;
-//            }
-//            for(int i = 0; i< mCount; i++) {
-//                ImageView image = new ImageView(this);
-//                image.setImageDrawable(getDrawable(R.drawable.beverage));
-//                image.setLayoutParams(new android.view.ViewGroup.LayoutParams(63,200));
-//                image.setPadding(5,5,5,5);
-//                image.setMaxHeight(200);
-//                image.setMaxWidth(63);
-//                layout.addView(image);
-//                image.startAnimation(rotateAnimation);
-//            }
-//        }else {
-//            layout.setVisibility(View.GONE);
-//        }
 
         rescan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent refresh = new Intent(QRCodeResultsActivity.this, QRCodeReader1.class);
+                Intent refresh = new Intent(QRCodeResultsActivity.this, EventsScannerActivity.class);
                 startActivity(refresh);
                 QRCodeResultsActivity.this.finish();
             }

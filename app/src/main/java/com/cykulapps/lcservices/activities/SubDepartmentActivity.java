@@ -27,8 +27,9 @@ import com.android.volley.toolbox.Volley;
 import com.cykulapps.lcservices.Config;
 import com.cykulapps.lcservices.PrefController;
 import com.cykulapps.lcservices.R;
-import com.cykulapps.lcservices.adapter.EventAdapter;
-import com.cykulapps.lcservices.helper.ScannerActivity;
+import com.cykulapps.lcservices.adapter.ParkAdapter;
+import com.cykulapps.lcservices.helper.GridSpacingItemDecoration;
+import com.cykulapps.lcservices.helper.ParksScannerActivity;
 import com.cykulapps.lcservices.model.EventModel;
 import com.cykulapps.lcservices.ticketing.HomeActivity;
 import com.cykulapps.lcservices.utils.Utils;
@@ -42,8 +43,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SubDepartmentActivity extends AppCompatActivity implements EventAdapter.ItemListener{
-    private static final int MY_PERMISSIONS_REQUEST_CAMERA = 1;
+public class SubDepartmentActivity extends AppCompatActivity implements ParkAdapter.ItemListener{
     Context context;
     ProgressDialog progressDialog;
     RecyclerView recyclerView;
@@ -57,7 +57,7 @@ public class SubDepartmentActivity extends AppCompatActivity implements EventAda
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sub_department);
-        Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -71,7 +71,7 @@ public class SubDepartmentActivity extends AppCompatActivity implements EventAda
         eventIDPrent = sharedPreferences.getString("peventID", "");
         String departID = sharedPreferences.getString("pdepartID", "");
         String appName = sharedPreferences.getString("category", "");
-        tv_appName = (TextView)findViewById(R.id.appName);
+        tv_appName = findViewById(R.id.appName);
         tv_appName.setText(appName);
         fetch_rides(departID);
     }
@@ -109,10 +109,17 @@ public class SubDepartmentActivity extends AppCompatActivity implements EventAda
                                     eventModel.setDeptName(deptName);
                                     eventModelArrayList.add(eventModel);
                                 }
-                                EventAdapter eventAdapter = new EventAdapter(eventModelArrayList, SubDepartmentActivity.this, SubDepartmentActivity.this);
-                                recyclerView.setAdapter(eventAdapter);
+                                ParkAdapter parkAdapter = new ParkAdapter(eventModelArrayList, SubDepartmentActivity.this, SubDepartmentActivity.this);
+
+                                int spanCount = 2;
+                                int spacing = getResources().getDimensionPixelOffset(R.dimen._12sdp);
+                                GridSpacingItemDecoration itemDecoration = new GridSpacingItemDecoration(spanCount, spacing, true);
+                                recyclerView.removeItemDecoration(itemDecoration);
+                                recyclerView.addItemDecoration(itemDecoration);
+
+                                recyclerView.setAdapter(parkAdapter);
                                 recyclerView.setLayoutManager(new GridLayoutManager(context, 2));
-                                eventAdapter.notifyDataSetChanged();
+                                parkAdapter.notifyDataSetChanged();
 
 
                             } catch (JSONException e) {
@@ -182,12 +189,8 @@ public class SubDepartmentActivity extends AppCompatActivity implements EventAda
                Intent intent1=new Intent(SubDepartmentActivity.this,HomeActivity.class);
                startActivity(intent1);
            }
-
-
-            // startActivity(new Intent(this, SubActivities.class).putExtra("eventID", eventID));
-          //  startActivity(new Intent(this, HomeActivity.class).putExtra("eventID",eventID).putExtra("departID", departID));
         }else if (category.equals("Scan")){
-            startActivity(new Intent(this, ScannerActivity.class).putExtra("eventID",eventID).putExtra("departID", departID));
+            startActivity(new Intent(this, ParksScannerActivity.class).putExtra("eventID",eventID).putExtra("departID", departID));
         }else if (category.equals("Asset")){
             startActivity(new Intent(this, SubActivities.class).putExtra("eventID",eventID).putExtra("departID", departID));
         }

@@ -1,14 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/colorWhite"
-    tools:context=".login.LoginActivity"
-    android:focusableInTouchMode="true">
 
-    <android.support.design.widget.AppBarLayout
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@drawable/shape_for_edittext"
+    android:orientation="vertical"
+    android:focusableInTouchMode="true"
+    android:layout_gravity="center"
+    >
+
+    <!--<android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/appbar"
@@ -27,67 +31,93 @@
                 android:textColor="@color/colorWhite"
                 android:textSize="@dimen/_16sdp"/>
         </android.support.v7.widget.Toolbar>
-    </android.support.design.widget.AppBarLayout>
+    </android.support.design.widget.AppBarLayout>-->
 
-    <RelativeLayout
+
+    <com.cykulapps.lcservices.views.CustomTextView
+        android:id="@+id/greetingtext"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_margin="@dimen/_10sdp"
-        android:id="@+id/rl_layout"
-        android:background="@drawable/layout_bg">
+        android:layout_marginTop="@dimen/_18sdp"
+        android:gravity="center"
+        android:textColor="@color/colorBtn"
+        android:textSize="@dimen/_22sdp" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/_5sdp"
             android:orientation="vertical"
-            android:layout_margin="@dimen/_15sdp">
-            <EditText
-                android:id="@+id/input_user"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_40sdp"
-                android:hint="Username"
-                android:singleLine="true"
-                android:layout_marginTop="@dimen/_40sdp"
-                android:inputType="textEmailAddress"
-                android:textSize="@dimen/_13sdp"
-                android:textColor="@color/colorWhite"
-                android:textColorHint="@color/colorWhite"
-                android:background="@drawable/edit_thick_bg"/>
-            <EditText
-                android:id="@+id/input_password"
-                android:inputType="textPassword"
-                android:background="@drawable/edit_thick_bg"
-                android:layout_width="match_parent"
-                android:singleLine="true"
-                android:textSize="@dimen/_13sdp"
-                android:textColor="@color/colorWhite"
-                android:textColorHint="@color/colorWhite"
-                android:layout_marginTop="@dimen/_20sdp"
-                android:layout_height="@dimen/_40sdp"
-                android:hint="Password" />
+            android:paddingBottom="@dimen/_10sdp">
 
-            <Button
-                android:onClick="checkCredentials"
-                android:textSize="@dimen/_14sdp"
-                android:background="@drawable/button_bg"
-                android:layout_marginTop="@dimen/_20sdp"
-                android:layout_width="@dimen/_120sdp"
-                android:layout_height="@dimen/_40sdp"
-                android:text="Login"
-                android:layout_marginBottom="@dimen/_5sdp"
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/first_name_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_20sdp"
+                android:layout_marginRight="@dimen/_20sdp"
+                android:layout_marginTop="@dimen/_15sdp"
+                app:errorTextAppearance="@color/colorRed"
+                >
+
+                <com.cykulapps.lcservices.views.CustomEditText
+                    android:id="@+id/username"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Username"
+                    android:inputType=""
+                    android:maxLines="1"
+                    android:paddingLeft="@dimen/_8sdp"
+                    android:singleLine="true"
+                    android:textSize="@dimen/_16sdp" />
+
+            </android.support.design.widget.TextInputLayout>
+
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/last_name_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_20sdp"
+                android:layout_marginRight="@dimen/_20sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                app:errorTextAppearance="@color/colorRed">
+
+                <com.cykulapps.lcservices.views.CustomEditText
+                    android:id="@+id/password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Password"
+                    android:inputType="textPassword"
+                    android:maxLines="1"
+                    android:paddingLeft="@dimen/_8sdp"
+                    android:singleLine="true"
+                    android:textSize="@dimen/_16sdp" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <com.cykulapps.lcservices.views.CustomButton
+                android:id="@+id/submitBtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:textColor="@color/colorBlack"/>
-        </LinearLayout>
-    </RelativeLayout>
-    <ImageView
-        android:layout_width="@dimen/_80sdp"
-        android:layout_height="@dimen/_80sdp"
-        android:background="@drawable/circle_bg"
-        android:layout_centerHorizontal="true"
-        android:src="@drawable/admin_white"
-        android:padding="@dimen/_20sdp"
-        android:layout_marginBottom="@dimen/_minus47sdp"
-        android:layout_above="@+id/rl_layout"/>
+                android:layout_marginBottom="@dimen/_10sdp"
+                android:layout_marginLeft="@dimen/_20sdp"
+                android:layout_marginRight="@dimen/_20sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:background="@drawable/facebook_button"
+                android:gravity="center"
+                android:padding="@dimen/_10sdp"
+                android:text="login"
+                android:textAllCaps="true"
+                android:textColor="@color/darkGrey"
+                android:textSize="@dimen/_16sdp" />
 
-</RelativeLayout>
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

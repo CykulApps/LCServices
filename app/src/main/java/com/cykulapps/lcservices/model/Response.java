@@ -23,6 +23,12 @@ private String image;
 @SerializedName("qrCode")
 @Expose
 private String qrCode;
+@SerializedName("eventID")
+@Expose
+private String eventID;
+@SerializedName("price")
+@Expose
+private String price;
 
 public String getDepartmentID() {
 return departmentID;
@@ -60,4 +66,17 @@ public void setQrCode(String qrCode) {
 this.qrCode = qrCode;
 }
 
+public String getEventID() {
+        return eventID;
+    }
+public void setEventID(String eventID) {
+        this.eventID = eventID;
+    }
+
+ public String getPrice(){
+    return price;
+    }
+public void setPrice(String price){
+    this.price = price;
+    }
 }

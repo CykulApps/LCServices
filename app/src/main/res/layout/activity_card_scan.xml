@@ -28,6 +28,7 @@
                     android:textSize="@dimen/_16sdp"/>
             </RelativeLayout>
         </android.support.v7.widget.Toolbar>
+
     </android.support.design.widget.AppBarLayout>
     <FrameLayout
         android:id="@+id/content_frame"

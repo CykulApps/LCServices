@@ -5,26 +5,33 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.CardView;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.cykulapps.lcservices.R;
 import com.cykulapps.lcservices.common.Prefs;
-import com.cykulapps.lcservices.login.CpLoginActivity;
+import com.cykulapps.lcservices.login.LoginActivity;
 
-public class CommonAdmin extends AppCompatActivity {
+public class AdminMainActivity extends AppCompatActivity {
 
     CardView cardPark,cardEvents;
-
+    ImageView parks, events;
+    TextView textAdmin;
+    String userType;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_common_admin);
+        setContentView(R.layout.activity_main_admin);
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
 
+        textAdmin = findViewById(R.id.admin);
         cardPark = findViewById(R.id.card_park);
         cardEvents = findViewById(R.id.card_events);
+        parks = findViewById(R.id.parks);
+        events = findViewById(R.id.events);
 
         cardPark.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -40,12 +47,10 @@ public class CommonAdmin extends AppCompatActivity {
             public void onClick(View view) {
                 if (Prefs.getBoolean(Prefs.LOGGED_IN,false))
                 {
-                    startActivity(new Intent(CommonAdmin.this, CpDepartmentActivity.class));
-                }
-                else
+                    startActivity(new Intent(AdminMainActivity.this, EventsMainActivity.class));
+                }else
                 {
-                    startActivity(new Intent(CommonAdmin.this, CpLoginActivity.class));
-
+                    startActivity(new Intent(AdminMainActivity.this, LoginActivity.class));
                 }
             }
         });
@@ -54,14 +59,13 @@ public class CommonAdmin extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         new AlertDialog.Builder(this)
-                //.setTitle("Really Exit?")
                 .setMessage("Logout?")
                 .setNegativeButton(android.R.string.no, null)
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
 
                     public void onClick(DialogInterface arg0, int arg1) {
                         Prefs.logoutUser(getApplicationContext());
-                        startActivity(new Intent(getApplicationContext(), CpLoginActivity.class));
+                        startActivity(new Intent(getApplicationContext(), LoginActivity.class));
                         finish();
                     }
                 }).create().show();

@@ -16,12 +16,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/toolbar">
-                        <TextView
+                        <!--<TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/app_name"
                             android:textColor="@color/colorWhite"
-                            android:textSize="@dimen/_16sdp"/>
+                            android:textSize="@dimen/_16sdp"/>-->
                 </android.support.v7.widget.Toolbar>
         </android.support.design.widget.AppBarLayout>
         <android.support.v7.widget.RecyclerView

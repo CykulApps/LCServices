@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.hardware.Camera;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -41,7 +42,7 @@ import java.util.Map;
 import me.dm7.barcodescanner.zbar.Result;
 import me.dm7.barcodescanner.zbar.ZBarScannerView;
 
-public class ScannerActivity extends AppCompatActivity implements ZBarScannerView.ResultHandler {
+public class ParksScannerActivity extends AppCompatActivity implements ZBarScannerView.ResultHandler {
     ZBarScannerView mScannerView;
     String riderID;
     ProgressDialog progressDialog;
@@ -52,19 +53,19 @@ public class ScannerActivity extends AppCompatActivity implements ZBarScannerVie
     private Camera.Parameters parameter;
     private boolean deviceHasFlash;
     private boolean isFlashLightOn = false;
-    RequestQueue requestQueue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mScannerView = new ZBarScannerView(this);
-        setContentView(R.layout.activity_scanner);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setContentView(R.layout.activity_scanner_common);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         overrideFonts fonts = new overrideFonts();
         fonts.overrideFonts(this, getWindow().getDecorView());
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+
         // Programmatically initialize the scanner view
         mScannerView = new ZBarScannerView(this);
         ViewGroup contentFrame = (ViewGroup) findViewById(R.id.content_frame);
@@ -77,14 +78,14 @@ public class ScannerActivity extends AppCompatActivity implements ZBarScannerVie
         eventID = sharedPreferences.getString("eventID", null);
         deptID = sharedPreferences.getString("departID", null);
         String appName = sharedPreferences.getString("category", null);
-        TextView tv_appName = (TextView)findViewById(R.id.appName);
+        TextView tv_appName = findViewById(R.id.appName);
         tv_appName.setText(appName);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu, menu);
+        inflater.inflate(R.menu.menu_enter_data, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -104,7 +105,6 @@ public class ScannerActivity extends AppCompatActivity implements ZBarScannerVie
                 Button btn = view.findViewById(R.id.submit);
                 btn.setOnClickListener(new View.OnClickListener()
                 {
-
                     @Override
                     public void onClick(View view)
                     {
@@ -113,23 +113,16 @@ public class ScannerActivity extends AppCompatActivity implements ZBarScannerVie
                         Log.e("riderID","no"+riderID);
 
                         if (riderID.isEmpty()) {
-                            Toast.makeText(ScannerActivity.this, "Please enter Card Number", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ParksScannerActivity.this, "Please enter Card Number", Toast.LENGTH_SHORT).show();
                         } else {
                             sendRiderID();
                             alert11.dismiss();
                         }
-
                     }
                 });
                 break;
             default:
                 return super.onOptionsItemSelected(item);
-/*
-            case R.id.flash:
-
-                openFlash();
-                break;*/
-
 
         }
         return true;
@@ -141,8 +134,9 @@ public class ScannerActivity extends AppCompatActivity implements ZBarScannerVie
         Log.e(" riderID", "" + riderID);
         sendRiderID();
 
-
     }
+
+    //back arrow action from toolbar
     @Override
     public boolean onSupportNavigateUp() {
         finish();
@@ -174,13 +168,12 @@ public class ScannerActivity extends AppCompatActivity implements ZBarScannerVie
 
                                 if (result.equals("true")) {
 
-                                    startActivity(new Intent(ScannerActivity.this, MessageActivity.class).putExtra("message", message).putExtra("result",result).putExtra("eventID",eventID).putExtra("deptName",deptID));
+                                    startActivity(new Intent(ParksScannerActivity.this, ScannerResultActivity.class).putExtra("message", message).putExtra("result",result).putExtra("eventID",eventID).putExtra("deptName",deptID));
                                     finish();
-
 
                                 } else {
 
-                                    startActivity(new Intent(ScannerActivity.this, MessageActivity.class).putExtra("message", message).putExtra("result",result).putExtra("eventID",eventID).putExtra("deptName",deptID));
+                                    startActivity(new Intent(ParksScannerActivity.this, ScannerResultActivity.class).putExtra("message", message).putExtra("result",result).putExtra("eventID",eventID).putExtra("deptName",deptID));
                                     finish();
                                 }
 
@@ -199,7 +192,7 @@ public class ScannerActivity extends AppCompatActivity implements ZBarScannerVie
                     }) {
                 @Override
                 protected Map<String, String> getParams() {
-                    Map<String, String> params = new HashMap<String, String>();
+                    Map<String, String> params = new HashMap<>();
                     params.put("cardID", riderID);
                     params.put("eventID", eventID);
                     params.put("deptName", deptID);
@@ -238,7 +231,7 @@ public class ScannerActivity extends AppCompatActivity implements ZBarScannerVie
     {
         deviceHasFlash = getApplication().getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH);
         if(!deviceHasFlash){
-            Toast.makeText(ScannerActivity.this, "Sorry, you device does not have any camera", Toast.LENGTH_LONG).show();
+            Toast.makeText(ParksScannerActivity.this, "Sorry, you device does not have any camera", Toast.LENGTH_LONG).show();
             return;
         }
         else{
@@ -295,8 +288,6 @@ public class ScannerActivity extends AppCompatActivity implements ZBarScannerVie
     @Override
     protected void onStart() {
         super.onStart();
-       // getCamera();
+
     }
-
-
 }

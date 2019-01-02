@@ -7,7 +7,6 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -23,8 +22,10 @@ import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.cykulapps.lcservices.Config;
 import com.cykulapps.lcservices.R;
 import com.cykulapps.lcservices.adapter.DasboardAdapter;
+import com.cykulapps.lcservices.helper.GridSpacingItemDecoration;
 import com.cykulapps.lcservices.model.DashboardModel;
 
 import org.json.JSONException;
@@ -48,7 +49,7 @@ public class Dashboard extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.cp_activity_dashboard);
+        setContentView(R.layout.events_dashboard_activity);
         intent = getIntent();
         department = intent.getStringExtra("departmentID");
         departmentName = intent.getStringExtra("departmentName");
@@ -67,6 +68,12 @@ public class Dashboard extends AppCompatActivity {
 
         Log.e("vivek", "dash" + department);
         recyclerView.setLayoutManager(new GridLayoutManager(Dashboard.this, 2));
+        int spanCount = 2;
+        int spacing = getResources().getDimensionPixelOffset(R.dimen._12sdp);
+        boolean includeEdge = true;
+        GridSpacingItemDecoration itemDecoration = new GridSpacingItemDecoration(spanCount, spacing, includeEdge);
+        recyclerView.removeItemDecoration(itemDecoration);
+        recyclerView.addItemDecoration(itemDecoration);
         checkValidQRCode();
 
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -112,7 +119,7 @@ public class Dashboard extends AppCompatActivity {
         progressDialog.setMessage("Please Wait...");
         progressDialog.setCancelable(false);
         RequestQueue requestQueue = Volley.newRequestQueue(this);
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, getString(R.string.dashboard),
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, Config.Dashboard,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -134,6 +141,9 @@ public class Dashboard extends AppCompatActivity {
                                     dashboardModelArrayList.add(dashboardModel);
 
                                 }
+
+
+                                recyclerView.setLayoutManager(new GridLayoutManager(getApplicationContext(), 2));
                                 dasboardAdapter = new DasboardAdapter(dashboardModelArrayList, Dashboard.this);
                                 recyclerView.setAdapter(dasboardAdapter);
 

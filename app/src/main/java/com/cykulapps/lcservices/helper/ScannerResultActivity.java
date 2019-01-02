@@ -10,10 +10,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.cykulapps.lcservices.R;
-import com.cykulapps.lcservices.helper.ScannerActivity;
 import com.cykulapps.lcservices.overrideFonts;
 
-public class MessageActivity extends AppCompatActivity {
+public class ScannerResultActivity extends AppCompatActivity {
     Intent intent;
     String messsage, status;
     TextView textView;
@@ -24,10 +23,10 @@ public class MessageActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_message);
+        setContentView(R.layout.activity_scanner_result);
         overrideFonts fonts = new overrideFonts();
         fonts.overrideFonts(this, getWindow().getDecorView());
-        Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -36,7 +35,7 @@ public class MessageActivity extends AppCompatActivity {
         status = intent.getStringExtra("result");
         eventID = intent.getStringExtra("eventID");
         deptName = intent.getStringExtra("deptName");
-        textView = (TextView) findViewById(R.id.tv);
+        textView = findViewById(R.id.tv);
         imageView = findViewById(R.id.image);
 
         if (status.equals("true")) {
@@ -62,7 +61,7 @@ public class MessageActivity extends AppCompatActivity {
     }
 
     public void scanNext(View view) {
-        startActivity(new Intent(this, ScannerActivity.class).putExtra("eventID", eventID).putExtra("deptName", deptName));
+        startActivity(new Intent(this, ParksScannerActivity.class).putExtra("eventID", eventID).putExtra("deptName", deptName));
         finish();
 
     }
