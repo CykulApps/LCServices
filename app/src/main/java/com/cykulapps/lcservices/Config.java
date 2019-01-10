@@ -20,6 +20,4 @@ public class Config {
     public static final String QR_SCAN1 = CP_BASE_URL+"activity/scannerActivity.php";
     public static final String Dashboard = CP_BASE_URL+"registration/displayDashboard.php";
 
-
-
 }

@@ -70,9 +70,11 @@ public class HomeActivity extends AppCompatActivity {
         secondTab.setText("Monthly User");// set the Text for the second Tab
         tabLayout.addTab(secondTab);
 
-        TabLayout.Tab thirdTab = tabLayout.newTab();
-        thirdTab.setText("Annual User");// set the Text for the second Tab
-        tabLayout.addTab(thirdTab);
+        if(eventID.equalsIgnoreCase("DRCV")) {
+            TabLayout.Tab thirdTab = tabLayout.newTab();
+            thirdTab.setText("Annual User");// set the Text for the third Tab
+            tabLayout.addTab(thirdTab);
+        }
 
 
 

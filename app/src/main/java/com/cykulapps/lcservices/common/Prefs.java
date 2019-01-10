@@ -16,6 +16,8 @@ public class Prefs {
     public static final String LOGGED_IN = "login";
     public static final String LOGGED_IN_VENDEOR = "login_vendor";
     public static final String COUNTRY = "country";
+    public static final String LOGGED_IN_TESTER = "login_tester";
+
     /**
      * Initialize the Prefs helper class to keep a reference to the
      * SharedPreference for this application the SharedPreference will use the

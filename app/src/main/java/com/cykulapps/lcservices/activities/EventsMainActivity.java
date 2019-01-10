@@ -67,8 +67,7 @@ public class EventsMainActivity extends AppCompatActivity {
         eventID = Prefs.getString("eventID","");
         userType = Prefs.getString("userType","");
 
-        userType=Prefs.getString("userType","");
-        if(userType.equalsIgnoreCase("admin")) {
+        if(userType.equalsIgnoreCase("admin") || userType.equalsIgnoreCase("tester")) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
@@ -76,7 +75,7 @@ public class EventsMainActivity extends AppCompatActivity {
         Log.e("eventID",""+eventID);
         Log.e("userType",""+userType);
 
-        sentRequest_for_image();
+        getData();
     }
 
 
@@ -102,7 +101,7 @@ public class EventsMainActivity extends AppCompatActivity {
     }
 
 
-    private void sentRequest_for_image() {
+    private void getData() {
         if (Utils.isNetConnected(this)) {
             progressDialog = new ProgressDialog(this);
             progressDialog.show();
@@ -166,8 +165,7 @@ public class EventsMainActivity extends AppCompatActivity {
     private void setDataToAdapter(List<com.cykulapps.lcservices.model.Response> imagesOfficeList) {
         int spanCount = 2;
         int spacing = getResources().getDimensionPixelOffset(R.dimen._12sdp);
-        boolean includeEdge = true;
-        GridSpacingItemDecoration itemDecoration = new GridSpacingItemDecoration(spanCount, spacing, includeEdge);
+        GridSpacingItemDecoration itemDecoration = new GridSpacingItemDecoration(spanCount, spacing, true);
         rcv_my_items.removeItemDecoration(itemDecoration);
         rcv_my_items.addItemDecoration(itemDecoration);
 
@@ -227,23 +225,6 @@ public class EventsMainActivity extends AppCompatActivity {
                         } else {
                             dialog.dismiss();
                         }
-                    }
-                });
-
-        //Creating dialog box
-        AlertDialog alert = builder.create();
-        //Setting the title manually
-        alert.setTitle(title);
-        alert.show();
-    }
-
-    public void alertDialog2(final Context context, String message, final String depatmentId, final String title, final boolean b) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setMessage(message)
-                .setCancelable(true)
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.dismiss();
                     }
                 });
 

@@ -30,6 +30,7 @@ import com.cykulapps.lcservices.R;
 import com.cykulapps.lcservices.adapter.ParkAdapter;
 import com.cykulapps.lcservices.helper.GridSpacingItemDecoration;
 import com.cykulapps.lcservices.helper.ParksScannerActivity;
+import com.cykulapps.lcservices.login.LoginActivity;
 import com.cykulapps.lcservices.model.EventModel;
 import com.cykulapps.lcservices.ticketing.HomeActivity;
 import com.cykulapps.lcservices.utils.Utils;
@@ -179,9 +180,11 @@ public class SubDepartmentActivity extends AppCompatActivity implements ParkAdap
 
         if (category.equals("Ticketing"))
         {
-           int name= PrefController.loadPreferences("calledJson",1,SubDepartmentActivity.this);
 
-           if(name==1){
+           int calledDRCV = PrefController.loadPreferences("calledDRCV",0,SubDepartmentActivity.this);
+           int calledPPCP = PrefController.loadPreferences("calledPPCP",0,SubDepartmentActivity.this);
+
+            if(calledDRCV==0 || calledPPCP==0){
                Log.e("jsoncalled","if");
                getPrices(eventID,departID);
            }else{
@@ -194,8 +197,9 @@ public class SubDepartmentActivity extends AppCompatActivity implements ParkAdap
         }else if (category.equals("Asset")){
             startActivity(new Intent(this, SubActivities.class).putExtra("eventID",eventID).putExtra("departID", departID));
         }
-
     }
+
+
     public void getPrices(final String eventID,final String departID){
         if (Utils.isNetConnected(context)) {
             Log.e("called","called");
@@ -210,86 +214,181 @@ public class SubDepartmentActivity extends AppCompatActivity implements ParkAdap
                         public void onResponse(String response) {
                             try {
                                 progressDialog.dismiss();
-                                Log.e("Response", response);
+                                Log.e("Price Response", response);
                                 JSONObject jsonObject = new JSONObject(response);
 
-                                SharedPreferences pref = context.getSharedPreferences("MyPrefAnnual", MODE_PRIVATE);
-                                SharedPreferences.Editor editor1 = pref.edit();
+                                if(jsonObject.getJSONObject("oneTime").getString("eventID").equalsIgnoreCase("DRCV")) {
+                                    SharedPreferences pref = context.getSharedPreferences("MyPrefAnnualDRCV", MODE_PRIVATE);
+                                    SharedPreferences.Editor editor1 = pref.edit();
 
-                                SharedPreferences pref2 = context.getSharedPreferences("MyPrefMonth", MODE_PRIVATE);
-                                SharedPreferences.Editor editor2 = pref2.edit();
+                                    SharedPreferences pref2 = context.getSharedPreferences("MyPrefMonthDRCV", MODE_PRIVATE);
+                                    SharedPreferences.Editor editor2 = pref2.edit();
 
-                                SharedPreferences pref3 = context.getSharedPreferences("MyPrefOne", MODE_PRIVATE);
-                                SharedPreferences.Editor editor3 = pref3.edit();
+                                    SharedPreferences pref3 = context.getSharedPreferences("MyPrefOneDRCV", MODE_PRIVATE);
+                                    SharedPreferences.Editor editor3 = pref3.edit();
 
-                                JSONObject oneTimeObject = jsonObject.getJSONObject("oneTime");
-                                JSONObject monthlyObject = jsonObject.getJSONObject("monthly");
-                                JSONObject annualObject = jsonObject.getJSONObject("annual");
+                                    JSONObject oneTimeObject = jsonObject.getJSONObject("oneTime");
+                                    JSONObject monthlyObject = jsonObject.getJSONObject("monthly");
+                                    JSONObject annualObject = jsonObject.getJSONObject("annual");
 
-                                String ownCycle = oneTimeObject.getString("ownCycle");
-                                String RentalCycle = oneTimeObject.getString("RentalCycle");
-                                String SpeCycle = oneTimeObject.getString("SpeCycle");
-                                String kidsCycle = oneTimeObject.getString("kidsCycle");
-                                String activity = oneTimeObject.getString("activity");
-                                String rock = oneTimeObject.getString("rock");
-                                String camera = oneTimeObject.getString("camera");
-                                String video = oneTimeObject.getString("video");
-                                editor3.putString("ownCycle",ownCycle);
-                                editor3.putString("RentalCycle",RentalCycle);
-                                editor3.putString("SpeCycle",SpeCycle);
-                                editor3.putString("kidsCycle",kidsCycle);
-                                editor3.putString("activity",activity);
-                                editor3.putString("rock",rock);
-                                editor3.putString("camera",camera);
-                                editor3.putString("video",video);
-                                editor3.apply();
+                                    String ownCycle = oneTimeObject.getString("ownCycle");
+                                    String adultParkCycle = oneTimeObject.getString("RentalCycle"); //new
+                                    String SpeCycle = oneTimeObject.getString("SpeCycle");
+                                    String kidsCycle = oneTimeObject.getString("kidsCycle");
+                                    String kidsWalk = oneTimeObject.getString("kidsWak");
+                                    String activity = oneTimeObject.getString("activity");
+                                    String rock = oneTimeObject.getString("rock");
+                                    String camera = oneTimeObject.getString("camera");
+                                    String video = oneTimeObject.getString("video");
+                                    editor3.putString("ownCycle", ownCycle);
+                                    editor3.putString("RentalCycle", adultParkCycle);
+                                    editor3.putString("SpeCycle", SpeCycle);
+                                    editor3.putString("kidsCycle", kidsCycle);
+                                    editor3.putString("kidsWalk", kidsWalk);
+                                    editor3.putString("activity", activity);
+                                    editor3.putString("rock", rock);
+                                    editor3.putString("camera", camera);
+                                    editor3.putString("video", video);
+                                    editor3.apply();
 
-                                String ownCycle1 = monthlyObject.getString("ownCycle");
-                                String RentalCycle1 = monthlyObject.getString("RentalCycle");
-                                String SpeCycle1 = monthlyObject.getString("SpeCycle");
-                                String kidsCycle1 = monthlyObject.getString("kidsCycle");
-                                String activity1 = monthlyObject.getString("activity");
-                                String rock1 = monthlyObject.getString("rock");
-                                String camera1 = monthlyObject.getString("camera");
-                                String video1 = monthlyObject.getString("video");
+                                    String ownCycle1 = monthlyObject.getString("ownCycle");
+                                    String RentalCycle1 = monthlyObject.getString("RentalCycle");
+                                    String SpeCycle1 = monthlyObject.getString("SpeCycle");
+                                    String kidsCycle1 = monthlyObject.getString("kidsCycle");
+                                    String kidsWalk1 = monthlyObject.getString("kidsWak");
+                                    String activity1 = monthlyObject.getString("activity");
+                                    String rock1 = monthlyObject.getString("rock");
+                                    String camera1 = monthlyObject.getString("camera");
+                                    String video1 = monthlyObject.getString("video");
 
-                                editor2.putString("ownCycle",ownCycle1);
-                                editor2.putString("RentalCycle",RentalCycle1);
-                                editor2.putString("SpeCycle",SpeCycle1);
-                                editor2.putString("kidsCycle",kidsCycle1);
-                                editor2.putString("activity",activity1);
-                                editor2.putString("rock",rock1);
-                                editor2.putString("camera",camera1);
-                                editor2.putString("video",video1);
-                                editor2.apply();
+                                    editor2.putString("ownCycle", ownCycle1);
+                                    editor2.putString("RentalCycle", RentalCycle1);
+                                    editor2.putString("SpeCycle", SpeCycle1);
+                                    editor2.putString("kidsCycle", kidsCycle1);
+                                    editor2.putString("kidsWalk", kidsWalk1);
+                                    editor2.putString("activity", activity1);
+                                    editor2.putString("rock", rock1);
+                                    editor2.putString("camera", camera1);
+                                    editor2.putString("video", video1);
+                                    editor2.apply();
 
-                                String ownCycle2 = annualObject.getString("ownCycle");
-                                String RentalCycle2 = annualObject.getString("RentalCycle");
-                                String SpeCycle2 = annualObject.getString("SpeCycle");
-                                String kidsCycle2 = annualObject.getString("kidsCycle");
-                                String activity2 = annualObject.getString("activity");
-                                String rock2 = annualObject.getString("rock");
-                                String camera2 = annualObject.getString("camera");
-                                String video2 = annualObject.getString("video");
-                                String citizenWalk = annualObject.getString("citizenWalk");
+                                    String ownCycle2 = annualObject.getString("ownCycle");
+                                    String RentalCycle2 = annualObject.getString("RentalCycle");
+                                    String SpeCycle2 = annualObject.getString("SpeCycle");
+                                    String kidsCycle2 = annualObject.getString("kidsCycle");
+                                    String kidsWalk2 = annualObject.getString("kidsWak");
+                                    String activity2 = annualObject.getString("activity");
+                                    String rock2 = annualObject.getString("rock");
+                                    String camera2 = annualObject.getString("camera");
+                                    String video2 = annualObject.getString("video");
+                                    String citizenWalk = annualObject.getString("citizenWalk");
 
-                                Log.e("activity===",activity2);
-                                editor1.putString("ownCycle",ownCycle2);
-                                editor1.putString("RentalCycle",RentalCycle2);
-                                editor1.putString("SpeCycle",SpeCycle2);
-                                editor1.putString("kidsCycle",kidsCycle2);
-                                editor1.putString("activity",activity2);
-                                editor1.putString("rock",rock2);
-                                editor1.putString("camera",camera2);
-                                editor1.putString("video",video2);
-                                editor1.putString("seniorcitizen",citizenWalk);
-                                editor1.apply();
+                                    Log.e("activity===", activity2);
+                                    editor1.putString("ownCycle", ownCycle2);
+                                    editor1.putString("RentalCycle", RentalCycle2);
+                                    editor1.putString("SpeCycle", SpeCycle2);
+                                    editor1.putString("kidsCycle", kidsCycle2);
+                                    editor1.putString("kidsWalk", kidsWalk2);
+                                    editor1.putString("activity", activity2);
+                                    editor1.putString("rock", rock2);
+                                    editor1.putString("camera", camera2);
+                                    editor1.putString("video", video2);
+                                    editor1.putString("seniorcitizen", citizenWalk);
+                                    editor1.apply();
 
-                                PrefController.savePrefs("calledJson",0,SubDepartmentActivity.this);
-                                Intent intent=new Intent(SubDepartmentActivity.this,HomeActivity.class);
-                                intent.putExtra("eventID",eventID);
-                                intent.putExtra("departID", departID);
-                                startActivity(intent);
+                                    PrefController.savePrefs("calledDRCV", 1, SubDepartmentActivity.this);
+                                    Intent intent = new Intent(SubDepartmentActivity.this, HomeActivity.class);
+                                    intent.putExtra("eventID", eventID);
+                                    intent.putExtra("departID", departID);
+                                    startActivity(intent);
+
+                                }
+                                else if(jsonObject.getJSONObject("oneTime").getString("eventID").equalsIgnoreCase("PPCP")){
+
+                                    SharedPreferences pref = context.getSharedPreferences("MyPrefAnnualPPCP", MODE_PRIVATE);
+                                    SharedPreferences.Editor editor1 = pref.edit();
+
+                                    SharedPreferences pref2 = context.getSharedPreferences("MyPrefMonthPPCP", MODE_PRIVATE);
+                                    SharedPreferences.Editor editor2 = pref2.edit();
+
+                                    SharedPreferences pref3 = context.getSharedPreferences("MyPrefOnePPCP", MODE_PRIVATE);
+                                    SharedPreferences.Editor editor3 = pref3.edit();
+
+                                    JSONObject oneTimeObject = jsonObject.getJSONObject("oneTime");
+                                    JSONObject monthlyObject = jsonObject.getJSONObject("monthly");
+                                    JSONObject annualObject = jsonObject.getJSONObject("annual");
+
+                                    String ownCycle = oneTimeObject.getString("ownCycle");
+                                    String adultParkCycle = oneTimeObject.getString("RentalCycle"); //new
+                                    String SpeCycle = oneTimeObject.getString("SpeCycle");
+                                    String kidsCycle = oneTimeObject.getString("kidsCycle");
+                                    String kidsWalk = oneTimeObject.getString("kidsWak");
+                                    String activity = oneTimeObject.getString("activity");
+                                    String rock = oneTimeObject.getString("rock");
+                                    String camera = oneTimeObject.getString("camera");
+                                    String video = oneTimeObject.getString("video");
+                                    editor3.putString("ownCycle", ownCycle);
+                                    editor3.putString("RentalCycle", adultParkCycle);
+                                    editor3.putString("SpeCycle", SpeCycle);
+                                    editor3.putString("kidsCycle", kidsCycle);
+                                    editor3.putString("kidsWalk", kidsWalk);
+                                    editor3.putString("activity", activity);
+                                    editor3.putString("rock", rock);
+                                    editor3.putString("camera", camera);
+                                    editor3.putString("video", video);
+                                    editor3.apply();
+
+                                    String ownCycle1 = monthlyObject.getString("ownCycle");
+                                    String RentalCycle1 = monthlyObject.getString("RentalCycle");
+                                    String SpeCycle1 = monthlyObject.getString("SpeCycle");
+                                    String kidsCycle1 = monthlyObject.getString("kidsCycle");
+                                    String kidsWalk1 = monthlyObject.getString("kidsWak");
+                                    String activity1 = monthlyObject.getString("activity");
+                                    String rock1 = monthlyObject.getString("rock");
+                                    String camera1 = monthlyObject.getString("camera");
+                                    String video1 = monthlyObject.getString("video");
+
+                                    editor2.putString("ownCycle", ownCycle1);
+                                    editor2.putString("RentalCycle", RentalCycle1);
+                                    editor2.putString("SpeCycle", SpeCycle1);
+                                    editor2.putString("kidsCycle", kidsCycle1);
+                                    editor2.putString("kidsWalk", kidsWalk1);
+                                    editor2.putString("activity", activity1);
+                                    editor2.putString("rock", rock1);
+                                    editor2.putString("camera", camera1);
+                                    editor2.putString("video", video1);
+                                    editor2.apply();
+
+                                    String ownCycle2 = annualObject.getString("ownCycle");
+                                    String RentalCycle2 = annualObject.getString("RentalCycle");
+                                    String SpeCycle2 = annualObject.getString("SpeCycle");
+                                    String kidsCycle2 = annualObject.getString("kidsCycle");
+                                    String kidsWalk2 = annualObject.getString("kidsWak");
+                                    String activity2 = annualObject.getString("activity");
+                                    String rock2 = annualObject.getString("rock");
+                                    String camera2 = annualObject.getString("camera");
+                                    String video2 = annualObject.getString("video");
+                                    String citizenWalk = annualObject.getString("citizenWalk");
+
+                                    Log.e("activity===", activity2);
+                                    editor1.putString("ownCycle", ownCycle2);
+                                    editor1.putString("RentalCycle", RentalCycle2);
+                                    editor1.putString("SpeCycle", SpeCycle2);
+                                    editor1.putString("kidsCycle", kidsCycle2);
+                                    editor1.putString("kidsWalk", kidsWalk2);
+                                    editor1.putString("activity", activity2);
+                                    editor1.putString("rock", rock2);
+                                    editor1.putString("camera", camera2);
+                                    editor1.putString("video", video2);
+                                    editor1.putString("seniorcitizen", citizenWalk);
+                                    editor1.apply();
+
+                                    PrefController.savePrefs("calledPPCP", 1, SubDepartmentActivity.this);
+                                    Intent intent = new Intent(SubDepartmentActivity.this, HomeActivity.class);
+                                    intent.putExtra("eventID", eventID);
+                                    intent.putExtra("departID", departID);
+                                    startActivity(intent);
+                                }
 
                             } catch (JSONException e) {
                                 e.printStackTrace();

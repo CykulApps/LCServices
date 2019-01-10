@@ -51,6 +51,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_40sdp" />
 
+            <!--adult own cycle-->
             <LinearLayout
                 android:layout_marginTop="@dimen/_10sdp"
                 android:weightSum="1"
@@ -61,7 +62,7 @@
                     android:textSize="@dimen/_14sdp"
                     android:id="@+id/own"
                     android:textColor="@color/black"
-                    android:text="Own cycle"
+                    android:text="Adult Own Cycle"
                     android:layout_gravity="center_vertical"
                     android:layout_width="@dimen/_120sdp"
                     android:layout_height="wrap_content" />
@@ -93,6 +94,101 @@
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
                         android:id="@+id/tv_own_total" />
+                </RelativeLayout>
+
+            </LinearLayout>
+
+
+            <!--adult park cycle-->
+            <LinearLayout
+                android:layout_marginTop="@dimen/_10sdp"
+                android:weightSum="1"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:textSize="@dimen/_14sdp"
+                    android:id="@+id/adult_park_cycle"
+                    android:textColor="@color/black"
+                    android:text="Adult Park Cycle"
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="@dimen/_120sdp"
+                    android:layout_height="wrap_content" />
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_gravity="center_vertical">
+                    <TextView
+                        android:layout_width="@dimen/_60sdp"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/colorBlack"
+                        android:layout_centerVertical="true"
+                        android:id="@+id/tv_park_cycle__price" />
+                    <EditText
+                        android:id="@+id/et_adult_park_cycle"
+                        android:background="@drawable/spinner_bg"
+                        android:layout_toRightOf="@+id/tv_park_cycle__price"
+                        android:layout_toLeftOf="@+id/tv_adult_park_cycle_total"
+                        android:layout_width="fill_parent"
+                        android:layout_height="@dimen/_30sdp"
+                        android:gravity="center"
+                        android:inputType="number"/>
+                    <TextView
+                        android:layout_width="@dimen/_50sdp"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/colorBlack"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:id="@+id/tv_adult_park_cycle_total" />
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <!--kids cycle-->
+            <LinearLayout
+                android:layout_marginTop="@dimen/_10sdp"
+                android:weightSum="1"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:textSize="@dimen/_14sdp"
+                    android:id="@+id/kids_park_cycle"
+                    android:textColor="@color/black"
+                    android:text="Kids Cycle"
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="@dimen/_120sdp"
+                    android:layout_height="wrap_content" />
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_gravity="center_vertical">
+                    <TextView
+                        android:layout_width="@dimen/_60sdp"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/colorBlack"
+                        android:layout_centerVertical="true"
+                        android:id="@+id/tv_kids_cycle__price" />
+                    <EditText
+                        android:id="@+id/et_kids_park_cycle"
+                        android:background="@drawable/spinner_bg"
+                        android:layout_toRightOf="@+id/tv_kids_cycle__price"
+                        android:layout_toLeftOf="@+id/tv_kids_cycle_total"
+                        android:layout_width="fill_parent"
+                        android:layout_height="@dimen/_30sdp"
+                        android:gravity="center"
+                        android:inputType="number"/>
+                    <TextView
+                        android:layout_width="@dimen/_50sdp"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/colorBlack"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:id="@+id/tv_kids_cycle_total" />
                 </RelativeLayout>
 
             </LinearLayout>
@@ -142,6 +238,7 @@
                         android:id="@+id/tv_rent_total" />
                 </RelativeLayout>
             </LinearLayout>
+
             <LinearLayout
                 android:visibility="gone"
                 android:layout_marginTop="@dimen/_10sdp"
@@ -189,7 +286,9 @@
                 </RelativeLayout>
 
             </LinearLayout>
+
             <LinearLayout
+                android:id="@+id/layoutKW"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:weightSum="1"
                 android:orientation="horizontal"
@@ -215,10 +314,10 @@
                         android:layout_centerVertical="true"
                         android:id="@+id/tv_kids_price" />
                     <EditText
-                        android:id="@+id/et_kids"
+                        android:id="@+id/et_kids_walk"
                         android:background="@drawable/spinner_bg"
                         android:layout_toRightOf="@+id/tv_kids_price"
-                        android:layout_toLeftOf="@+id/tv_kids_total"
+                        android:layout_toLeftOf="@+id/tv_kids_walk_total"
                         android:layout_width="fill_parent"
                         android:gravity="center"
                         android:layout_height="@dimen/_30sdp"
@@ -230,10 +329,12 @@
                         android:layout_alignParentRight="true"
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
-                        android:id="@+id/tv_kids_total" />
+                        android:id="@+id/tv_kids_walk_total" />
                 </RelativeLayout>
             </LinearLayout>
+
             <LinearLayout
+                android:id="@+id/layoutAW"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:weightSum="1"
                 android:orientation="horizontal"
@@ -281,6 +382,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/layoutCamera"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:weightSum="1"
                 android:orientation="horizontal"
@@ -326,6 +428,7 @@
 
             </LinearLayout>
             <LinearLayout
+                android:id="@+id/layoutVideo"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:weightSum="1"
                 android:orientation="horizontal"

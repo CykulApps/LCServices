@@ -88,9 +88,9 @@ public class CheckBalance extends AppCompatActivity {
                                     tvCheckBalance.setVisibility(View.VISIBLE);
                                     tvCheckBalance.setText(report_status);
 
-
                                 } else {
-                                    Toast.makeText(CheckBalance.this, report_status, Toast.LENGTH_SHORT).show();
+                                    tvCheckBalance.setVisibility(View.VISIBLE);
+                                    tvCheckBalance.setText(report_status);
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();

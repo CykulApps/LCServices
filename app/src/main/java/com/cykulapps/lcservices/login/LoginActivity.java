@@ -78,15 +78,12 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        //getSupportActionBar().setElevation(0);
         checkAndRequestPermissions();
         username = findViewById(R.id.username);
         password = findViewById(R.id.password);
-        //imageView = findViewById(R.id.image_view);
         loginbutton = findViewById(R.id.submitBtn);
         user_name_layout = findViewById(R.id.first_name_layout);
         password_name_layout = findViewById(R.id.last_name_layout);
-        //imageView.setImageResource(R.drawable.lc_app_logo);
         @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         loginTime = sdf.format(new Date());
 
@@ -97,7 +94,7 @@ public class LoginActivity extends AppCompatActivity {
                 passWord = password.getText().toString().trim();
 
                 if (validation()) {
-                    //if(userName.equalsIgnoreCase("admin") && passWord != null) {
+
                         checkEventCode();
                 }
             }
@@ -164,7 +161,17 @@ public class LoginActivity extends AppCompatActivity {
                                     finish();
                                     Log.e("result", "" + result);
 
-                                } else {
+                                }else if(userType.equals("tester") && result.equals(Constants.TRUE)){
+                                    eventID = "NA";
+                                    Prefs.putString(Prefs.COUNTRY, country);
+                                    Prefs.putBoolean(Prefs.LOGGED_IN, true);
+                                    Prefs.putString("eventID",eventID);
+                                    Prefs.putString("userType",userType);
+                                    startActivity(new Intent(LoginActivity.this, AdminMainActivity.class));
+                                    finish();
+                                    Log.e("result", "" + result);
+                                }
+                                else if (userType.equalsIgnoreCase("park")){
                                     checkParkCode();
                                 }
 
@@ -251,7 +258,8 @@ public class LoginActivity extends AppCompatActivity {
                                     Log.e("userID==",userID);
                                     editor2.putString("rowID",String.valueOf(rowID));
                                     editor2.apply();
-                                    PrefController.savePrefs("calledJson",1,LoginActivity.this);
+                                    PrefController.savePrefs("calledDRCV",0,LoginActivity.this);
+                                    PrefController.savePrefs("calledPPCP",0,LoginActivity.this);
                                     startActivity(new Intent(LoginActivity.this, DepartmentActivity.class));
                                     PrefController.savePrefs("login","success",LoginActivity.this);
                                     finish();
@@ -269,7 +277,6 @@ public class LoginActivity extends AppCompatActivity {
                     new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError error) {
-                            //  Toast.makeText(MapStationActivity.this, error.toString(), Toast.LENGTH_LONG).show();
                             Log.e("error", "" + error);
                             progressDialog.dismiss();
                         }
@@ -396,13 +403,11 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         new AlertDialog.Builder(this)
-                //.setTitle("Really Exit?")
                 .setMessage("Exit?")
                 .setNegativeButton(android.R.string.no, null)
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
 
                     public void onClick(DialogInterface arg0, int arg1) {
-                        //LoginActivity.super.onBackPressed();
                         Intent homeIntent = new Intent(Intent.ACTION_MAIN);
                         homeIntent.addCategory( Intent.CATEGORY_HOME );
                         homeIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

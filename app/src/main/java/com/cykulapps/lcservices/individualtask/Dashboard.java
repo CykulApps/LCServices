@@ -74,7 +74,7 @@ public class Dashboard extends AppCompatActivity {
         GridSpacingItemDecoration itemDecoration = new GridSpacingItemDecoration(spanCount, spacing, includeEdge);
         recyclerView.removeItemDecoration(itemDecoration);
         recyclerView.addItemDecoration(itemDecoration);
-        checkValidQRCode();
+        getDashboard();
 
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -97,7 +97,7 @@ public class Dashboard extends AppCompatActivity {
         // Load items
         // ...
         dashboardModelArrayList.clear();
-        checkValidQRCode();
+        getDashboard();
 
         // Load complete
         onItemsLoadComplete();
@@ -112,7 +112,7 @@ public class Dashboard extends AppCompatActivity {
     }
 
 
-    private void checkValidQRCode()
+    private void getDashboard()
     {
         progressDialog = new ProgressDialog(this);
         progressDialog.show();

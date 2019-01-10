@@ -82,27 +82,28 @@
 
             <LinearLayout
                 android:orientation="horizontal"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content">
             <EditText
-               android:visibility="gone"
-                android:layout_width="@dimen/_240sdp"
+                android:visibility="gone"
+                android:layout_width="@dimen/_220sdp"
                 android:layout_height="@dimen/_45sdp"
                 android:id="@+id/et1"
-                android:hint="Enter Card number"
+                android:hint="Enter Card Number"
                 android:paddingLeft="@dimen/_10sdp"
                 android:inputType="textCapCharacters"
                 android:textSize="@dimen/_13sdp"
                 android:textColor="@color/colorBlack"
                 android:background="@drawable/spinner_bg"/>
+
                 <ImageView
-                  android:visibility="gone"
+                    android:visibility="gone"
                     android:id="@+id/image1"
+                    android:layout_width="@dimen/_45sdp"
+                    android:layout_height="@dimen/_45sdp"
+                    android:layout_gravity="bottom"
                     android:layout_marginLeft="@dimen/_10sdp"
-                   android:background="@drawable/qrcode"
-                    android:layout_gravity="center"
-                    android:layout_width="@dimen/_34sdp"
-                    android:layout_height="@dimen/_30sdp" />
+                    android:background="@drawable/qrcode" />
             </LinearLayout>
             <LinearLayout
                 android:orientation="horizontal"
@@ -111,23 +112,23 @@
                 <EditText
                     android:visibility="gone"
                    android:layout_marginTop="@dimen/_8sdp"
-                    android:layout_width="@dimen/_240sdp"
+                    android:layout_width="@dimen/_220sdp"
                     android:layout_height="@dimen/_45sdp"
                     android:id="@+id/et2"
-                    android:hint="Enter Card number"
+                    android:hint="Enter Card Number"
                     android:paddingLeft="@dimen/_10sdp"
                     android:inputType="textCapCharacters"
                     android:textSize="@dimen/_13sdp"
                     android:textColor="@color/colorBlack"
                     android:background="@drawable/spinner_bg"/>
                 <ImageView
-                    android:visibility="gone"
                     android:id="@+id/image2"
+                    android:layout_width="@dimen/_45sdp"
+                    android:layout_height="@dimen/_45sdp"
+                    android:layout_gravity="bottom"
                     android:layout_marginLeft="@dimen/_10sdp"
                     android:background="@drawable/qrcode"
-                    android:layout_gravity="center"
-                    android:layout_width="@dimen/_34sdp"
-                    android:layout_height="@dimen/_30sdp" />
+                    android:visibility="gone"/>
             </LinearLayout>
             <LinearLayout
                 android:orientation="horizontal"
@@ -136,23 +137,23 @@
                 <EditText
                     android:layout_marginTop="@dimen/_8sdp"
                     android:visibility="gone"
-                    android:layout_width="@dimen/_240sdp"
+                    android:layout_width="@dimen/_220sdp"
                     android:layout_height="@dimen/_45sdp"
                     android:id="@+id/et3"
-                    android:hint="Enter Card number"
+                    android:hint="Enter Card Number"
                     android:paddingLeft="@dimen/_10sdp"
                     android:inputType="textCapCharacters"
                     android:textSize="@dimen/_13sdp"
                     android:textColor="@color/colorBlack"
                     android:background="@drawable/spinner_bg"/>
                 <ImageView
-                    android:visibility="gone"
                     android:id="@+id/image3"
+                    android:layout_width="@dimen/_45sdp"
+                    android:layout_height="@dimen/_45sdp"
+                    android:layout_gravity="bottom"
                     android:layout_marginLeft="@dimen/_10sdp"
                     android:background="@drawable/qrcode"
-                    android:layout_gravity="center"
-                    android:layout_width="@dimen/_34sdp"
-                    android:layout_height="@dimen/_30sdp" />
+                    android:visibility="gone"/>
             </LinearLayout>
             <LinearLayout
                 android:orientation="horizontal"
@@ -161,24 +162,25 @@
                 <EditText
                     android:layout_marginTop="@dimen/_8sdp"
                     android:visibility="gone"
-                    android:layout_width="@dimen/_240sdp"
+                    android:layout_width="@dimen/_220sdp"
                     android:layout_height="@dimen/_45sdp"
                     android:id="@+id/et4"
-                    android:hint="Enter Card number"
+                    android:hint="Enter Card Number"
                     android:paddingLeft="@dimen/_10sdp"
                     android:inputType="textCapCharacters"
                     android:textSize="@dimen/_13sdp"
                     android:textColor="@color/colorBlack"
                     android:background="@drawable/spinner_bg"/>
+
                 <ImageView
 
-                    android:visibility="gone"
                     android:id="@+id/image4"
+                    android:layout_width="@dimen/_45sdp"
+                    android:layout_height="@dimen/_45sdp"
+                    android:layout_gravity="bottom"
                     android:layout_marginLeft="@dimen/_10sdp"
                     android:background="@drawable/qrcode"
-                    android:layout_gravity="center"
-                    android:layout_width="@dimen/_34sdp"
-                    android:layout_height="@dimen/_30sdp" />
+                    android:visibility="gone" />
             </LinearLayout>
             <LinearLayout
                 android:orientation="horizontal"
@@ -187,23 +189,23 @@
                 <EditText
                     android:layout_marginTop="@dimen/_8sdp"
                     android:visibility="gone"
-                    android:layout_width="@dimen/_240sdp"
+                    android:layout_width="@dimen/_220sdp"
                     android:layout_height="@dimen/_45sdp"
                     android:id="@+id/et5"
-                    android:hint="Enter Card number"
+                    android:hint="Enter Card Number"
                     android:paddingLeft="@dimen/_10sdp"
                     android:inputType="textCapCharacters"
                     android:textSize="@dimen/_13sdp"
                     android:textColor="@color/colorBlack"
                     android:background="@drawable/spinner_bg"/>
                 <ImageView
-                    android:visibility="gone"
                     android:id="@+id/image5"
+                    android:layout_width="@dimen/_45sdp"
+                    android:layout_height="@dimen/_45sdp"
+                    android:layout_gravity="bottom"
                     android:layout_marginLeft="@dimen/_10sdp"
                     android:background="@drawable/qrcode"
-                    android:layout_gravity="center"
-                    android:layout_width="@dimen/_34sdp"
-                    android:layout_height="@dimen/_30sdp" />
+                    android:visibility="gone" />
             </LinearLayout>
             <LinearLayout
                 android:orientation="horizontal"
@@ -212,23 +214,23 @@
                 <EditText
                     android:layout_marginTop="@dimen/_8sdp"
                     android:visibility="gone"
-                    android:layout_width="@dimen/_240sdp"
+                    android:layout_width="@dimen/_220sdp"
                     android:layout_height="@dimen/_45sdp"
                     android:id="@+id/et6"
-                    android:hint="Enter Card number"
+                    android:hint="Enter Card Number"
                     android:paddingLeft="@dimen/_10sdp"
                     android:inputType="textCapCharacters"
                     android:textSize="@dimen/_13sdp"
                     android:textColor="@color/colorBlack"
                     android:background="@drawable/spinner_bg"/>
                 <ImageView
-                    android:visibility="gone"
                     android:id="@+id/image6"
+                    android:layout_width="@dimen/_45sdp"
+                    android:layout_height="@dimen/_45sdp"
+                    android:layout_gravity="bottom"
                     android:layout_marginLeft="@dimen/_10sdp"
                     android:background="@drawable/qrcode"
-                    android:layout_gravity="center"
-                    android:layout_width="@dimen/_34sdp"
-                    android:layout_height="@dimen/_30sdp" />
+                    android:visibility="gone"/>
             </LinearLayout>
             <LinearLayout
                 android:orientation="horizontal"
@@ -237,23 +239,23 @@
                 <EditText
                     android:layout_marginTop="@dimen/_8sdp"
                     android:visibility="gone"
-                    android:layout_width="@dimen/_240sdp"
+                    android:layout_width="@dimen/_220sdp"
                     android:layout_height="@dimen/_45sdp"
                     android:id="@+id/et7"
-                    android:hint="Enter Card number"
+                    android:hint="Enter Card Number"
                     android:paddingLeft="@dimen/_10sdp"
                     android:inputType="textCapCharacters"
                     android:textSize="@dimen/_13sdp"
                     android:textColor="@color/colorBlack"
                     android:background="@drawable/spinner_bg"/>
                 <ImageView
-                    android:visibility="gone"
                     android:id="@+id/image7"
+                    android:layout_width="@dimen/_45sdp"
+                    android:layout_height="@dimen/_45sdp"
+                    android:layout_gravity="bottom"
                     android:layout_marginLeft="@dimen/_10sdp"
                     android:background="@drawable/qrcode"
-                    android:layout_gravity="center"
-                    android:layout_width="@dimen/_34sdp"
-                    android:layout_height="@dimen/_30sdp" />
+                    android:visibility="gone" />
             </LinearLayout>
             <LinearLayout
                 android:orientation="horizontal"
@@ -262,23 +264,23 @@
                 <EditText
                     android:layout_marginTop="@dimen/_8sdp"
                     android:visibility="gone"
-                    android:layout_width="@dimen/_240sdp"
+                    android:layout_width="@dimen/_220sdp"
                     android:layout_height="@dimen/_45sdp"
                     android:id="@+id/et8"
-                    android:hint="Enter Card number"
+                    android:hint="Enter Card Number"
                     android:paddingLeft="@dimen/_10sdp"
                     android:inputType="textCapCharacters"
                     android:textSize="@dimen/_13sdp"
                     android:textColor="@color/colorBlack"
                     android:background="@drawable/spinner_bg"/>
                 <ImageView
-                    android:visibility="gone"
                     android:id="@+id/image8"
+                    android:layout_width="@dimen/_45sdp"
+                    android:layout_height="@dimen/_45sdp"
+                    android:layout_gravity="bottom"
                     android:layout_marginLeft="@dimen/_10sdp"
                     android:background="@drawable/qrcode"
-                    android:layout_gravity="center"
-                    android:layout_width="@dimen/_34sdp"
-                    android:layout_height="@dimen/_30sdp" />
+                    android:visibility="gone" />
             </LinearLayout>
             <LinearLayout
                 android:orientation="horizontal"
@@ -287,23 +289,23 @@
                 <EditText
                     android:layout_marginTop="@dimen/_8sdp"
                     android:visibility="gone"
-                    android:layout_width="@dimen/_240sdp"
+                    android:layout_width="@dimen/_220sdp"
                     android:layout_height="@dimen/_45sdp"
                     android:id="@+id/et9"
-                    android:hint="Enter Card number"
+                    android:hint="Enter Card Number"
                     android:paddingLeft="@dimen/_10sdp"
                     android:inputType="textCapCharacters"
                     android:textSize="@dimen/_13sdp"
                     android:textColor="@color/colorBlack"
                     android:background="@drawable/spinner_bg"/>
                 <ImageView
-                    android:visibility="gone"
                     android:id="@+id/image9"
+                    android:layout_width="@dimen/_45sdp"
+                    android:layout_height="@dimen/_45sdp"
+                    android:layout_gravity="bottom"
                     android:layout_marginLeft="@dimen/_10sdp"
                     android:background="@drawable/qrcode"
-                    android:layout_gravity="center"
-                    android:layout_width="@dimen/_34sdp"
-                    android:layout_height="@dimen/_30sdp" />
+                    android:visibility="gone" />
             </LinearLayout>
             <LinearLayout
 
@@ -313,25 +315,24 @@
                 <EditText
                     android:layout_marginTop="@dimen/_8sdp"
                     android:visibility="gone"
-                    android:layout_width="@dimen/_240sdp"
+                    android:layout_width="@dimen/_220sdp"
                     android:layout_height="@dimen/_45sdp"
                     android:id="@+id/et10"
-                    android:hint="Enter Card number"
+                    android:hint="Enter Card Number"
                     android:paddingLeft="@dimen/_10sdp"
                     android:inputType="textCapCharacters"
                     android:textSize="@dimen/_13sdp"
                     android:textColor="@color/colorBlack"
                     android:background="@drawable/spinner_bg"/>
                 <ImageView
-                    android:visibility="gone"
                     android:id="@+id/image10"
+                    android:layout_width="@dimen/_45sdp"
+                    android:layout_height="@dimen/_45sdp"
+                    android:layout_gravity="bottom"
                     android:layout_marginLeft="@dimen/_10sdp"
                     android:background="@drawable/qrcode"
-                    android:layout_gravity="center"
-                    android:layout_width="@dimen/_34sdp"
-                    android:layout_height="@dimen/_30sdp" />
+                    android:visibility="gone" />
             </LinearLayout>
-
 
             <Button
                 android:textColor="@color/colorWhite"

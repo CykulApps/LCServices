@@ -61,7 +61,6 @@ public class EventsSubActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.events_sub_activity);
         Intent intent = getIntent();
-        //departmentID = intent.getStringExtra("departmentID");
         departmentID = Prefs.getString("eventSubDeptID","");
         departmentName = Prefs.getString("eventSubDept","");
         Log.e("departmetnId",departmentID+"");
@@ -69,7 +68,7 @@ public class EventsSubActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        if(userType.equalsIgnoreCase("admin")) {
+        if(userType.equalsIgnoreCase("admin") || userType.equalsIgnoreCase("tester")) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
@@ -89,17 +88,19 @@ public class EventsSubActivity extends AppCompatActivity {
 
     public boolean onCreateOptionsMenu(Menu menu)
     {
-        if(userType.equals("admin"))
+        if(userType.equalsIgnoreCase("admin"))
         {
-            getMenuInflater().inflate(R.menu.events_subactivity_menu, menu);//Menu Resource, Menu
+            getMenuInflater().inflate(R.menu.events_admin_menu, menu);//Menu Resource, Menu
             return true;
 
-        }else
+        }else if(userType.equalsIgnoreCase("tester"))
         {
+            getMenuInflater().inflate(R.menu.events_tester_menu, menu);//Menu Resource, Menu
+            return true;
+        }else{
             getMenuInflater().inflate(R.menu.events_vendor_menu, menu);//Menu Resource, Menu
             return true;
         }
-
     }
 
     @Override
@@ -279,23 +280,6 @@ public class EventsSubActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.dismiss();
                         EventsSubActivity.this.finish();
-                    }
-                });
-
-        //Creating dialog box
-        AlertDialog alert = builder.create();
-        //Setting the title manually
-        alert.setTitle(title);
-        alert.show();
-    }
-    public void alertDialog2(final Context context, String message, final String depatmentId, final String title, final boolean b)
-    {
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setMessage(message)
-                .setCancelable(true)
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.dismiss();
                     }
                 });
 

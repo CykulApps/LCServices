@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -67,7 +68,8 @@ public class AnnualFragment extends Fragment {
     String eventID, deptID, adminID;
     TextView tv_renewal, tv_seniorcitzen_price, tv_citizen_total;
     TextView tv_own_price, tv_own_total, tv_rent_price, tv_rent_total, tv_spe_price, tv_spe_total, tv_kids_price, tv_kids_total, tv_activity_price, tv_activity_total, tv_rock_price, tv_rock_total;
-
+    String ownCycle, RentalCycle, SpeCycle, kidsCycle, sactivity, seniorcitizen, srock;
+    LinearLayout layoutAW;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -78,13 +80,13 @@ public class AnnualFragment extends Fragment {
         requestQueue = Volley.newRequestQueue(context);
         overrideFonts fonts = new overrideFonts();
         fonts.overrideFonts(getActivity(), root);
-        et_fname = (EditText) root.findViewById(R.id.et_fname);
-        et_lname = (EditText) root.findViewById(R.id.et_lname);
-        et_mob = (EditText) root.findViewById(R.id.et_mob);
-        et_seniorcitizen = (EditText) root.findViewById(R.id.et_seniorcitizen);
+        et_fname = root.findViewById(R.id.et_fname);
+        et_lname = root.findViewById(R.id.et_lname);
+        et_mob = root.findViewById(R.id.et_mob);
+        et_seniorcitizen = root.findViewById(R.id.et_seniorcitizen);
 
-        tv_renewal = (TextView) root.findViewById(R.id.tv_renewal);
-        annual_card_image = (ImageView) root.findViewById(R.id.annual_card_image);
+        tv_renewal = root.findViewById(R.id.tv_renewal);
+        annual_card_image = root.findViewById(R.id.annual_card_image);
         annual_card_image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -101,32 +103,33 @@ public class AnnualFragment extends Fragment {
             }
         });
 
+        layoutAW = root.findViewById(R.id.layoutAW);
 
-        et_own = (EditText) root.findViewById(R.id.et_own);
-        et_rent = (EditText) root.findViewById(R.id.et_rent);
-        et_kids = (EditText) root.findViewById(R.id.et_kids);
-        et_activity = (EditText) root.findViewById(R.id.et_activity);
-        et_card = (EditText) root.findViewById(R.id.et_card);
-        tv_total = (TextView) root.findViewById(R.id.et_total);
-        r_payment = (RadioButton) root.findViewById(R.id.radio_payment);
-        r_cash = (RadioButton) root.findViewById(R.id.radio_cash);
-        btn_submit = (Button) root.findViewById(R.id.btn_submit);
-        radioMode = (RadioGroup) root.findViewById(R.id.radio_mode);
+        et_own = root.findViewById(R.id.et_own);
+        et_rent = root.findViewById(R.id.et_rent);
+        et_kids = root.findViewById(R.id.et_kids);
+        et_activity = root.findViewById(R.id.et_activity);
+        et_card = root.findViewById(R.id.et_card);
+        tv_total = root.findViewById(R.id.et_total);
+        r_payment = root.findViewById(R.id.radio_payment);
+        r_cash = root.findViewById(R.id.radio_cash);
+        btn_submit = root.findViewById(R.id.btn_submit);
+        radioMode = root.findViewById(R.id.radio_mode);
 
-        tv_own_price = (TextView) root.findViewById(R.id.tv_own_price);
-        tv_own_total = (TextView) root.findViewById(R.id.tv_own_total);
+        tv_own_price = root.findViewById(R.id.tv_own_price);
+        tv_own_total = root.findViewById(R.id.tv_own_total);
 
-        tv_rent_price = (TextView) root.findViewById(R.id.tv_rent_price);
-        tv_rent_total = (TextView) root.findViewById(R.id.tv_rent_total);
+        tv_rent_price = root.findViewById(R.id.tv_rent_price);
+        tv_rent_total = root.findViewById(R.id.tv_rent_total);
 
-        tv_kids_price = (TextView) root.findViewById(R.id.tv_kids_price);
-        tv_kids_total = (TextView) root.findViewById(R.id.tv_kids_total);
+        tv_kids_price = root.findViewById(R.id.tv_kids_price);
+        tv_kids_total = root.findViewById(R.id.tv_kids_total);
 
-        tv_activity_price = (TextView) root.findViewById(R.id.tv_activity_price);
-        tv_activity_total = (TextView) root.findViewById(R.id.tv_activity_total);
+        tv_activity_price = root.findViewById(R.id.tv_activity_price);
+        tv_activity_total = root.findViewById(R.id.tv_activity_total);
 
-        tv_seniorcitzen_price = (TextView) root.findViewById(R.id.tv_seniorcitzen_price);
-        tv_citizen_total = (TextView) root.findViewById(R.id.tv_citizen_total);
+        tv_seniorcitzen_price = root.findViewById(R.id.tv_seniorcitzen_price);
+        tv_citizen_total = root.findViewById(R.id.tv_citizen_total);
 
         tv_total.setText("0.0");
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("MyPref", MODE_PRIVATE);
@@ -135,15 +138,28 @@ public class AnnualFragment extends Fragment {
         adminID = sharedPreferences.getString("userID", null);
         String peventID = sharedPreferences.getString("peventID", null);
 
+        if(peventID.equalsIgnoreCase("DRCV")) {
+            SharedPreferences sharedPreferences1 = getActivity().getSharedPreferences("MyPrefAnnualDRCV", MODE_PRIVATE);
+            ownCycle = sharedPreferences1.getString("ownCycle", null);
+            RentalCycle = sharedPreferences1.getString("RentalCycle", null);
+            SpeCycle = sharedPreferences1.getString("SpeCycle", null);
+            kidsCycle = sharedPreferences1.getString("kidsCycle", null);
+            sactivity = sharedPreferences1.getString("activity", null);
+            seniorcitizen = sharedPreferences1.getString("seniorcitizen", null);
+            srock = sharedPreferences1.getString("rock", null);
 
-        SharedPreferences sharedPreferences1 = getActivity().getSharedPreferences("MyPrefAnnual", MODE_PRIVATE);
-        final String ownCycle = sharedPreferences1.getString("ownCycle", null);
-        final String RentalCycle = sharedPreferences1.getString("RentalCycle", null);
-        final String SpeCycle = sharedPreferences1.getString("SpeCycle", null);
-        final String kidsCycle = sharedPreferences1.getString("kidsCycle", null);
-        final String sactivity = sharedPreferences1.getString("activity", null);
-        final String seniorcitizen = sharedPreferences1.getString("seniorcitizen", null);
-        final String srock = sharedPreferences1.getString("rock", null);
+        }else if(peventID.equalsIgnoreCase("PPCP")){
+            SharedPreferences sharedPreferences1 = getActivity().getSharedPreferences("MyPrefAnnualPPCP", MODE_PRIVATE);
+            ownCycle = sharedPreferences1.getString("ownCycle", null);
+            RentalCycle = sharedPreferences1.getString("RentalCycle", null);
+            SpeCycle = sharedPreferences1.getString("SpeCycle", null);
+            kidsCycle = sharedPreferences1.getString("kidsCycle", null);
+            sactivity = sharedPreferences1.getString("activity", null);
+            seniorcitizen = sharedPreferences1.getString("seniorcitizen", null);
+            srock = sharedPreferences1.getString("rock", null);
+
+            layoutAW.setVisibility(View.GONE);
+        }
 
         final String ownPrice = "Rs. " + ownCycle + " x";
         tv_own_price.setText(ownPrice);
@@ -171,10 +187,8 @@ public class AnnualFragment extends Fragment {
                 String lname = et_lname.getText().toString();
                 String mno = et_mob.getText().toString();
                 String cardNum = et_card.getText().toString();
-              /*  if (fname.length() == 0) {
-                    et_fname.requestFocus();
-                    et_fname.setError("Enter first name");
-                }*/ if (mno.length() == 0) {
+
+                if (mno.length() == 0) {
                     et_mob.requestFocus();
                     et_mob.setError("Enter mobile number");
                 } else if (mno.length() < 10) {
@@ -227,7 +241,7 @@ public class AnnualFragment extends Fragment {
                         String curTime = sdf.format(new Date());
                         String totalAmount = tv_total.getText().toString();
                         int selectedId = radioMode.getCheckedRadioButtonId();
-                        RadioButton radioButton = (RadioButton) root.findViewById(selectedId);
+                        RadioButton radioButton = root.findViewById(selectedId);
 
                         String radioType = radioButton.getText().toString();
                         sendDataToServer(fname, lname, mno, down, drent, dkids, dactivity, dseniorcitizen, totalCount, totalAmount, curTime, radioType, cardNum);
@@ -300,6 +314,42 @@ public class AnnualFragment extends Fragment {
                 } else {
                     String total = " = 0.00";
                     tv_rent_total.setText(total);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        et_kids.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                String own = et_own.getText().toString();
+                String rent = et_rent.getText().toString();
+
+                String kids = et_kids.getText().toString();
+                String activity = et_activity.getText().toString();
+                String citizenActivity = et_seniorcitizen.getText().toString();
+
+                double dtotal = calculatePrice(own, rent, kids, activity, citizenActivity);
+                String tvtotal = String.valueOf(dtotal);
+                tv_total.setText(tvtotal);
+
+                if (kids.length() != 0) {
+                    double own_total = Integer.parseInt(kidsCycle) * Integer.parseInt(kids);
+                    String total = " = " + String.valueOf(own_total);
+                    tv_kids_total.setText(total);
+                } else {
+                    String total = " = 0.00";
+                    tv_kids_total.setText(total);
                 }
             }
 
@@ -467,7 +517,7 @@ public class AnnualFragment extends Fragment {
                         }
                     }) {
                 @Override
-                protected Map<String, String> getParams() throws AuthFailureError {
+                protected Map<String, String> getParams() {
                     HashMap<String, String> map = new HashMap<>();
                     map.put("adminID", adminID);
                     map.put("mobileNumber", mno);
@@ -506,14 +556,14 @@ public class AnnualFragment extends Fragment {
     private double calculatePrice(String own, String rent, String kids, String activity, String citizenActivity) {
         Double down, drent, dkids, dactivity, dcitizen;
 
-        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("MyPrefAnnual", MODE_PRIVATE);
+        /*SharedPreferences sharedPreferences = getActivity().getSharedPreferences("MyPrefAnnual", MODE_PRIVATE);
         String ownCycle = sharedPreferences.getString("ownCycle", null);
         String RentalCycle = sharedPreferences.getString("RentalCycle", null);
         String SpeCycle = sharedPreferences.getString("SpeCycle", null);
         String kidsCycle = sharedPreferences.getString("kidsCycle", null);
         String sactivity = sharedPreferences.getString("activity", null);
         String srock = sharedPreferences.getString("rock", null);
-        final String seniorcitizen = sharedPreferences.getString("seniorcitizen", null);
+        final String seniorcitizen = sharedPreferences.getString("seniorcitizen", null);*/
 
         int aown = Integer.parseInt(ownCycle);
         int arent = Integer.parseInt(RentalCycle);

@@ -2,12 +2,10 @@ package com.cykulapps.lcservices.ticketing;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
@@ -18,40 +16,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.NetworkError;
-import com.android.volley.NoConnectionError;
-import com.android.volley.ParseError;
-import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.TimeoutError;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.cykulapps.lcservices.Config;
 import com.cykulapps.lcservices.R;
 
-import com.cykulapps.lcservices.model.EventModel;
 import com.cykulapps.lcservices.overrideFonts;
-import com.cykulapps.lcservices.utils.Utils;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -61,16 +39,18 @@ public class OneTimeFragment extends Fragment {
     RadioButton r_payment, r_cash;
     RequestQueue requestQueue;
     Context context;
-    EditText et_own, et_rent, et_spe, et_kids, et_activity, et_rock, et_camera, et_video;
+    EditText et_own, et_rent, et_spe, et_kids_walk, et_activity, et_rock, et_camera, et_video, et_adult_park_cycle, et_kids_park_cycle;
     TextView tv_total;
     Button btn_submit;
     RadioGroup radioMode;
     String eventID;
     TextView tv_own_price, tv_own_total,tv_rent_price, tv_rent_total,tv_spe_price,
-            tv_spe_total,tv_kids_price, tv_kids_total,tv_activity_price,
+            tv_spe_total,tv_kids_price, tv_kids_walk_total,tv_activity_price,
             tv_activity_total,tv_rock_price, tv_rock_total, tv_camera_price,
-            tv_camera_total, tv_video_price, tv_video_total;
+            tv_camera_total, tv_video_price, tv_video_total, tv_adult_park_cycle_price, tv_adult_cycle_total, tv_kids_park_cycle_price,tv_kids_cycle_total;
 
+    String ownCycle, RentalCycle, adultRentalCycle, SpeCycle, kidsCycle, kidsWalk, sactivity, srock, scamera, svideo;
+    LinearLayout layoutKW, layoutAW, layoutCamera, layoutVideo;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,65 +67,106 @@ public class OneTimeFragment extends Fragment {
         context = getActivity();
         requestQueue = Volley.newRequestQueue(context);
 
-        et_fname = (EditText) root.findViewById(R.id.et_fname);
-        et_lname = (EditText) root.findViewById(R.id.et_lname);
-        et_mob = (EditText) root.findViewById(R.id.et_mob);
-        et_own = (EditText) root.findViewById(R.id.et_own);
-        et_rent = (EditText) root.findViewById(R.id.et_rent);
-        et_spe = (EditText) root.findViewById(R.id.et_spe);
-        et_kids = (EditText) root.findViewById(R.id.et_kids);
-        et_activity = (EditText) root.findViewById(R.id.et_activity);
-        et_rock = (EditText) root.findViewById(R.id.et_rock);
-        et_camera = (EditText) root.findViewById(R.id.et_camera);
-        et_video = (EditText) root.findViewById(R.id.et_video);
-        tv_total = (TextView) root.findViewById(R.id.et_total);
-        r_payment = (RadioButton) root.findViewById(R.id.radio_payment);
-        r_cash = (RadioButton) root.findViewById(R.id.radio_cash);
-        btn_submit = (Button) root.findViewById(R.id.btn_submit);
-        radioMode = (RadioGroup) root.findViewById(R.id.radio_mode);
+        layoutKW = root.findViewById(R.id.layoutKW);
+        layoutAW = root.findViewById(R.id.layoutAW);
+        layoutCamera = root.findViewById(R.id.layoutCamera);
+        layoutVideo = root.findViewById(R.id.layoutVideo);
 
-        tv_own_price = (TextView)root.findViewById(R.id.tv_own_price);
-        tv_own_total = (TextView)root.findViewById(R.id.tv_own_total);
+        et_fname = root.findViewById(R.id.et_fname);
+        et_lname = root.findViewById(R.id.et_lname);
+        et_mob = root.findViewById(R.id.et_mob);
+        et_own = root.findViewById(R.id.et_own);
+        et_rent = root.findViewById(R.id.et_rent);
+        et_spe = root.findViewById(R.id.et_spe);
+        et_kids_walk = root.findViewById(R.id.et_kids_walk);
+        et_activity = root.findViewById(R.id.et_activity);
+        et_rock = root.findViewById(R.id.et_rock);
+        et_camera = root.findViewById(R.id.et_camera);
+        et_video = root.findViewById(R.id.et_video);
+        tv_total = root.findViewById(R.id.et_total);
+        r_payment = root.findViewById(R.id.radio_payment);
+        r_cash = root.findViewById(R.id.radio_cash);
+        btn_submit = root.findViewById(R.id.btn_submit);
+        radioMode = root.findViewById(R.id.radio_mode);
 
-        tv_rent_price = (TextView)root.findViewById(R.id.tv_rent_price);
-        tv_rent_total = (TextView)root.findViewById(R.id.tv_rent_total);
+        tv_own_price = root.findViewById(R.id.tv_own_price);
+        tv_own_total = root.findViewById(R.id.tv_own_total);
 
-        tv_spe_price = (TextView)root.findViewById(R.id.tv_spe_price);
-        tv_spe_total = (TextView)root.findViewById(R.id.tv_spe_total);
+        tv_rent_price = root.findViewById(R.id.tv_rent_price);
+        tv_rent_total = root.findViewById(R.id.tv_rent_total);
 
-        tv_kids_price = (TextView)root.findViewById(R.id.tv_kids_price);
-        tv_kids_total = (TextView)root.findViewById(R.id.tv_kids_total);
+        tv_spe_price = root.findViewById(R.id.tv_spe_price);
+        tv_spe_total = root.findViewById(R.id.tv_spe_total);
 
-        tv_activity_price = (TextView)root.findViewById(R.id.tv_activity_price);
-        tv_activity_total = (TextView)root.findViewById(R.id.tv_activity_total);
+        tv_kids_price = root.findViewById(R.id.tv_kids_price);
+        tv_kids_walk_total = root.findViewById(R.id.tv_kids_walk_total);
 
-        tv_rock_price = (TextView)root.findViewById(R.id.tv_rock_price);
-        tv_rock_total = (TextView)root.findViewById(R.id.tv_rock_total);
+        tv_activity_price = root.findViewById(R.id.tv_activity_price);
+        tv_activity_total = root.findViewById(R.id.tv_activity_total);
 
-        tv_camera_price = (TextView)root.findViewById(R.id.tv_camera_price);
-        tv_camera_total = (TextView)root.findViewById(R.id.tv_camera_total);
+        tv_rock_price = root.findViewById(R.id.tv_rock_price);
+        tv_rock_total = root.findViewById(R.id.tv_rock_total);
 
-        tv_video_price = (TextView)root.findViewById(R.id.tv_video_price);
-        tv_video_total = (TextView)root.findViewById(R.id.tv_video_total);
+        tv_camera_price = root.findViewById(R.id.tv_camera_price);
+        tv_camera_total = root.findViewById(R.id.tv_camera_total);
+
+        tv_video_price = root.findViewById(R.id.tv_video_price);
+        tv_video_total = root.findViewById(R.id.tv_video_total);
 
         tv_total.setText("0.0");
+
+        //adult park cycle
+        tv_adult_park_cycle_price = root.findViewById(R.id.tv_park_cycle__price);
+        et_adult_park_cycle = root.findViewById(R.id.et_adult_park_cycle);
+        tv_adult_cycle_total = root.findViewById(R.id.tv_adult_park_cycle_total);
+
+        //kids cycle
+        tv_kids_park_cycle_price = root.findViewById(R.id.tv_kids_cycle__price);
+        et_kids_park_cycle = root.findViewById(R.id.et_kids_park_cycle);
+        tv_kids_cycle_total = root.findViewById(R.id.tv_kids_cycle_total);
 
         SharedPreferences sharedPreferences2 = getActivity().getSharedPreferences("MyPref", MODE_PRIVATE);
         eventID = sharedPreferences2.getString("peventID", "");
 
-            SharedPreferences sharedPreferences = getActivity().getSharedPreferences("MyPrefOne", MODE_PRIVATE);
-            final String ownCycle = sharedPreferences.getString("ownCycle", "");
-              Log.e("ownCycle==",ownCycle);
-            final String RentalCycle = sharedPreferences.getString("RentalCycle", "");
-            final String SpeCycle = sharedPreferences.getString("SpeCycle", "");
-            final String kidsCycle = sharedPreferences.getString("kidsCycle", "");
-            final String sactivity = sharedPreferences.getString("activity", "");
-            final String srock = sharedPreferences.getString("rock", "");
-            final String scamera = sharedPreferences.getString("camera", "");
-            final String svideo = sharedPreferences.getString("video", "");
+        if(eventID.equalsIgnoreCase("DRCV")) {
 
+            SharedPreferences sharedPreferences = getActivity().getSharedPreferences("MyPrefOneDRCV", MODE_PRIVATE);
+            ownCycle = sharedPreferences.getString("ownCycle", "");
+            RentalCycle = sharedPreferences.getString("RentalCycle", "");
+            adultRentalCycle = sharedPreferences.getString("RentalCycle", "");
+            SpeCycle = sharedPreferences.getString("SpeCycle", "");
+            kidsCycle = sharedPreferences.getString("kidsCycle", "");
+            kidsWalk = sharedPreferences.getString("kidsWalk", "");
+            sactivity = sharedPreferences.getString("activity", "");
+            srock = sharedPreferences.getString("rock", "");
+            scamera = sharedPreferences.getString("camera", "");
+            svideo = sharedPreferences.getString("video", "");
 
+        }else if(eventID.equalsIgnoreCase("PPCP")){
 
+            SharedPreferences sharedPreferences = getActivity().getSharedPreferences("MyPrefOnePPCP", MODE_PRIVATE);
+            ownCycle = sharedPreferences.getString("ownCycle", "");
+            RentalCycle = sharedPreferences.getString("RentalCycle", "");
+            adultRentalCycle = sharedPreferences.getString("RentalCycle", "");
+            SpeCycle = sharedPreferences.getString("SpeCycle", "");
+            kidsCycle = sharedPreferences.getString("kidsCycle", "");
+            kidsWalk = sharedPreferences.getString("kidsWalk", "");
+            sactivity = sharedPreferences.getString("activity", "");
+            srock = sharedPreferences.getString("rock", "");
+            scamera = sharedPreferences.getString("camera", "");
+            svideo = sharedPreferences.getString("video", "");
+
+            layoutKW.setVisibility(View.GONE);
+            layoutAW.setVisibility(View.GONE);
+            layoutCamera.setVisibility(View.GONE);
+            layoutVideo.setVisibility(View.GONE);
+        }
+
+        final String adultParkCycle = "Rs. "+adultRentalCycle+" x";
+        tv_adult_park_cycle_price.setText(adultParkCycle);
+
+        final String kidsParkCycle = "Rs. "+kidsCycle+" x";
+        tv_kids_park_cycle_price.setText(kidsParkCycle);
 
         final String ownPrice = "Rs. "+ownCycle+" x";
         tv_own_price.setText(ownPrice);
@@ -156,8 +177,8 @@ public class OneTimeFragment extends Fragment {
         final String spePrice = "Rs. "+SpeCycle+" x";
         tv_spe_price.setText(spePrice);
 
-        final String kidsPrice = "Rs. "+kidsCycle+" x";
-        tv_kids_price.setText(kidsPrice);
+        final String kidsWalkPrice = "Rs. "+kidsCycle+" x";
+        tv_kids_price.setText(kidsWalkPrice);
 
         final String activityPrice = "Rs. "+sactivity+" x";
         tv_activity_price.setText(activityPrice);
@@ -175,9 +196,10 @@ public class OneTimeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 String own = et_own.getText().toString();
-                String rent = et_rent.getText().toString();
+                String adultRent = et_adult_park_cycle.getText().toString();
+                String kidsRent = et_kids_park_cycle.getText().toString();
+                String kidsWalk = et_kids_walk.getText().toString();
                 String spe = et_spe.getText().toString();
-                String kids = et_kids.getText().toString();
                 String activity = et_activity.getText().toString();
                 String rock = et_rock.getText().toString();
                 String fname = et_fname.getText().toString();
@@ -186,7 +208,7 @@ public class OneTimeFragment extends Fragment {
                 String camera = et_camera.getText().toString();
                 String video = et_video.getText().toString();
 
-                int down, drent, dspe, dkids, dactivity, drock,dcamera,dvideo;
+                int down, drent, dspe, dkids, dkidsw, dactivity, drock,dcamera,dvideo;
 
                 if (own.length() == 0) {
                     down = 0;
@@ -194,24 +216,32 @@ public class OneTimeFragment extends Fragment {
                     down = Integer.parseInt(own);
                 }
 
-                if (rent.length() == 0) {
+                if (adultRent.length() == 0) {
                     drent = 0;
                 } else {
-                    drent = Integer.parseInt(rent);
+                    drent = Integer.parseInt(adultRent);
 
                 }
                 if (spe.length() == 0) {
                     dspe = 0;
                 } else {
                     dspe = Integer.parseInt(spe);
-
                 }
-                if (kids.length() == 0) {
+
+                if (kidsRent.length() == 0) {
                     dkids = 0;
                 } else {
-                    dkids = Integer.parseInt(kids);
+                    dkids = Integer.parseInt(kidsRent);
 
                 }
+
+                if (kidsWalk.length() == 0) {
+                    dkidsw = 0;
+                } else {
+                    dkidsw = Integer.parseInt(kidsWalk);
+
+                }
+
                 if (activity.length() == 0) {
                     dactivity = 0;
                 } else {
@@ -239,13 +269,13 @@ public class OneTimeFragment extends Fragment {
                 }
 
 
-                int totalCount = down + drent + dspe + dkids + dactivity + drock+ dcamera+ dvideo;
+                int totalCount = down + drent + dspe + dkids + dkidsw + dactivity + drock+ dcamera+ dvideo;
                 Log.e("Total Count", totalCount + "");
                 if (radioMode.getCheckedRadioButtonId() == -1) {
                     Toast.makeText(getActivity(), "Please select payment mode", Toast.LENGTH_SHORT).show();
                 } else if (totalCount > 10) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                    builder.setMessage("You can not enter more than 10");
+                    builder.setMessage("You can not enter more than 10 !!!");
                     builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
@@ -254,12 +284,25 @@ public class OneTimeFragment extends Fragment {
                     });
                     AlertDialog dialog = builder.create();
                     dialog.show();
-                } else {
+
+                }else if(totalCount==0){
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                    builder.setMessage("Please enter atleast one ticket !!!");
+                    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+                }
+                else {
                     @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                     String curTime = sdf.format(new Date());
                     String totalAmount = tv_total.getText().toString();
                     int selectedId = radioMode.getCheckedRadioButtonId();
-                    RadioButton radioButton = (RadioButton) root.findViewById(selectedId);
+                    RadioButton radioButton = root.findViewById(selectedId);
 
                     String radioType = radioButton.getText().toString();
                     //    sendDataToServer(fname,lname,mno,down,drent, dspe, dkids,dactivity,drock,totalCount,totalAmount,curTime,radioType);
@@ -272,6 +315,7 @@ public class OneTimeFragment extends Fragment {
                     intent.putExtra("rentCycle", String.valueOf(drent));
                     intent.putExtra("speCycle", String.valueOf(dspe));
                     intent.putExtra("kidsCycle", String.valueOf(dkids));
+                    intent.putExtra("kidsWalk", String.valueOf(dkidsw));
                     intent.putExtra("activity", String.valueOf(dactivity));
                     intent.putExtra("rock", String.valueOf(drock));
                     intent.putExtra("totalCount", String.valueOf(totalCount));
@@ -296,14 +340,15 @@ public class OneTimeFragment extends Fragment {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
 
                 String own = et_own.getText().toString();
-                String rent = et_rent.getText().toString();
+                String adultRent = et_adult_park_cycle.getText().toString();
+                String kidsRent = et_kids_park_cycle.getText().toString();
+                String kidsWalk =  et_kids_walk.getText().toString();
                 String spe = et_spe.getText().toString();
-                String kids = et_kids.getText().toString();
                 String activity = et_activity.getText().toString();
                 String rock = et_rock.getText().toString();
                 String camera = et_camera.getText().toString();
                 String video = et_video.getText().toString();
-                double dtotal = calculatePrice(own, rent, spe, kids, activity, rock,camera,video);
+                double dtotal = calculatePrice(own, adultRent, spe, kidsRent, kidsWalk, activity, rock,camera,video);
                 String tvtotal = String.valueOf(dtotal);
                 tv_total.setText(tvtotal);
 
@@ -323,7 +368,7 @@ public class OneTimeFragment extends Fragment {
             }
         });
 
-        et_rent.addTextChangedListener(new TextWatcher() {
+        et_adult_park_cycle.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -333,23 +378,24 @@ public class OneTimeFragment extends Fragment {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
 
                 String own = et_own.getText().toString();
-                String rent = et_rent.getText().toString();
+                String adultRent = et_adult_park_cycle.getText().toString();
+                String kidsRent = et_kids_park_cycle.getText().toString();
+                String kidsWalk =  et_kids_walk.getText().toString();
                 String spe = et_spe.getText().toString();
-                String kids = et_kids.getText().toString();
                 String activity = et_activity.getText().toString();
                 String rock = et_rock.getText().toString();
                 String camera = et_camera.getText().toString();
                 String video = et_video.getText().toString();
-                double dtotal = calculatePrice(own, rent, spe, kids, activity, rock,camera,video);
+                double dtotal = calculatePrice(own, adultRent, spe, kidsRent, kidsWalk, activity, rock,camera,video);
                 String tvtotal = String.valueOf(dtotal);
                 tv_total.setText(tvtotal);
-                if (rent.length()!=0){
-                    double own_total = Integer.parseInt(RentalCycle)*Integer.parseInt(rent);
+                if (adultRent.length()!=0){
+                    double own_total = Integer.parseInt(adultRentalCycle)*Integer.parseInt(adultRent);
                     String total = " = "+String.valueOf(own_total);
-                    tv_rent_total.setText(total);
+                    tv_adult_cycle_total.setText(total);
                 }else {
                     String total = " = 0.00";
-                    tv_rent_total.setText(total);
+                    tv_adult_cycle_total.setText(total);
                 }
 
             }
@@ -359,6 +405,84 @@ public class OneTimeFragment extends Fragment {
 
             }
         });
+
+        et_kids_park_cycle.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                String own = et_own.getText().toString();
+                String adultRent = et_adult_park_cycle.getText().toString();
+                String kidsRent = et_kids_park_cycle.getText().toString();
+                String kidsWalk =  et_kids_walk.getText().toString();
+                String spe = et_spe.getText().toString();
+                String activity = et_activity.getText().toString();
+                String rock = et_rock.getText().toString();
+                String camera = et_camera.getText().toString();
+                String video = et_video.getText().toString();
+                double dtotal = calculatePrice(own, adultRent, spe, kidsRent, kidsWalk, activity, rock,camera,video);
+                String tvtotal = String.valueOf(dtotal);
+                tv_total.setText(tvtotal);
+                if (kidsRent.length()!=0){
+                    double own_total = Integer.parseInt(kidsCycle)*Integer.parseInt(kidsRent);
+                    String total = " = "+String.valueOf(own_total);
+                    tv_kids_cycle_total.setText(total);
+                }else {
+                    String total = " = 0.00";
+                    tv_kids_cycle_total.setText(total);
+                }
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        et_kids_walk.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                String own = et_own.getText().toString();
+                String adultRent = et_adult_park_cycle.getText().toString();
+                String kidsRent = et_kids_park_cycle.getText().toString();
+                String kidsWalk =  et_kids_walk.getText().toString();
+                String spe = et_spe.getText().toString();
+                String activity = et_activity.getText().toString();
+                String rock = et_rock.getText().toString();
+                String camera = et_camera.getText().toString();
+                String video = et_video.getText().toString();
+                double dtotal = calculatePrice(own, adultRent, spe, kidsRent, kidsWalk, activity, rock,camera,video);
+                String tvtotal = String.valueOf(dtotal);
+                tv_total.setText(tvtotal);
+                if (kidsWalk.length()!=0){
+                    double own_total = Integer.parseInt(kidsCycle)*Integer.parseInt(kidsWalk);
+                    String total = " = "+String.valueOf(own_total);
+                    tv_kids_walk_total.setText(total);
+                }else {
+                    String total = " = 0.00";
+                    tv_kids_walk_total.setText(total);
+                }
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+
 
         et_spe.addTextChangedListener(new TextWatcher() {
             @Override
@@ -370,15 +494,16 @@ public class OneTimeFragment extends Fragment {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
 
                 String own = et_own.getText().toString();
-                String rent = et_rent.getText().toString();
+                String adultRent = et_rent.getText().toString();
+                String kidsRent = et_kids_park_cycle.getText().toString();
+                String kidsWalk =  et_kids_walk.getText().toString();
                 String spe = et_spe.getText().toString();
-                String kids = et_kids.getText().toString();
                 String activity = et_activity.getText().toString();
                 String rock = et_rock.getText().toString();
 
                 String camera = et_camera.getText().toString();
                 String video = et_video.getText().toString();
-                double dtotal = calculatePrice(own, rent, spe, kids, activity, rock,camera,video);
+                double dtotal = calculatePrice(own, adultRent, spe, kidsRent, kidsWalk, activity, rock,camera,video);
                 String tvtotal = String.valueOf(dtotal);
                 tv_total.setText(tvtotal);
 
@@ -410,15 +535,15 @@ public class OneTimeFragment extends Fragment {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
 
                 String own = et_own.getText().toString();
-                String rent = et_rent.getText().toString();
+                String adultRent = et_adult_park_cycle.getText().toString();
+                String kidsRent = et_adult_park_cycle.getText().toString();
+                String kidsWalk = et_kids_walk.getText().toString();
                 String spe = et_spe.getText().toString();
-                String kids = et_kids.getText().toString();
                 String activity = et_activity.getText().toString();
                 String rock = et_rock.getText().toString();
-
                 String camera = et_camera.getText().toString();
                 String video = et_video.getText().toString();
-                double dtotal = calculatePrice(own, rent, spe, kids, activity, rock,camera,video);
+                double dtotal = calculatePrice(own, adultRent, spe, kidsRent, kidsWalk, activity, rock,camera,video);
                 String tvtotal = String.valueOf(dtotal);
                 tv_total.setText(tvtotal);
 
@@ -438,6 +563,7 @@ public class OneTimeFragment extends Fragment {
 
             }
         });
+
         et_rock.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -448,15 +574,16 @@ public class OneTimeFragment extends Fragment {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
 
                 String own = et_own.getText().toString();
-                String rent = et_rent.getText().toString();
+                String adultRent = et_adult_park_cycle.getText().toString();
+                String kidsRent = et_adult_park_cycle.getText().toString();
+                String kidsWalk = et_kids_walk.getText().toString();
                 String spe = et_spe.getText().toString();
-                String kids = et_kids.getText().toString();
                 String activity = et_activity.getText().toString();
                 String rock = et_rock.getText().toString();
 
                 String camera = et_camera.getText().toString();
                 String video = et_video.getText().toString();
-                double dtotal = calculatePrice(own, rent, spe, kids, activity, rock,camera,video);
+                double dtotal = calculatePrice(own, adultRent, spe, kidsRent, kidsWalk, activity, rock,camera,video);
                 String tvtotal = String.valueOf(dtotal);
                 tv_total.setText(tvtotal);
 
@@ -477,43 +604,7 @@ public class OneTimeFragment extends Fragment {
             }
         });
 
-        et_kids.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-                String own = et_own.getText().toString();
-                String rent = et_rent.getText().toString();
-                String spe = et_spe.getText().toString();
-                String kids = et_kids.getText().toString();
-                String activity = et_activity.getText().toString();
-                String rock = et_rock.getText().toString();
-
-                String camera = et_camera.getText().toString();
-                String video = et_video.getText().toString();
-                double dtotal = calculatePrice(own, rent, spe, kids, activity, rock,camera,video);
-                String tvtotal = String.valueOf(dtotal);
-                tv_total.setText(tvtotal);
-                if (kids.length()!=0){
-                    double own_total = Integer.parseInt(kidsCycle)*Integer.parseInt(kids);
-                    String total = " = "+String.valueOf(own_total);
-                    tv_kids_total.setText(total);
-                }else {
-                    String total = " = 0.00";
-                    tv_kids_total.setText(total);
-                }
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
         et_camera.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -524,14 +615,15 @@ public class OneTimeFragment extends Fragment {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
 
                 String own = et_own.getText().toString();
-                String rent = et_rent.getText().toString();
+                String adultRent = et_adult_park_cycle.getText().toString();
+                String kidsRent = et_adult_park_cycle.getText().toString();
+                String kidsWalk = et_kids_walk.getText().toString();
                 String spe = et_spe.getText().toString();
-                String kids = et_kids.getText().toString();
                 String activity = et_activity.getText().toString();
                 String rock = et_rock.getText().toString();
                 String camera = et_camera.getText().toString();
                 String video = et_video.getText().toString();
-                double dtotal = calculatePrice(own, rent, spe, kids, activity, rock,camera,video);
+                double dtotal = calculatePrice(own, adultRent, spe, kidsRent, kidsWalk, activity, rock,camera,video);
                 String tvtotal = String.valueOf(dtotal);
                 tv_total.setText(tvtotal);
                 if (camera.length()!=0){
@@ -561,14 +653,15 @@ public class OneTimeFragment extends Fragment {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
 
                 String own = et_own.getText().toString();
-                String rent = et_rent.getText().toString();
+                String adultRent = et_adult_park_cycle.getText().toString();
+                String kidsRent = et_adult_park_cycle.getText().toString();
+                String kidsWalk = et_kids_walk.getText().toString();
                 String spe = et_spe.getText().toString();
-                String kids = et_kids.getText().toString();
                 String activity = et_activity.getText().toString();
                 String rock = et_rock.getText().toString();
                 String camera = et_camera.getText().toString();
                 String video = et_video.getText().toString();
-                double dtotal = calculatePrice(own, rent, spe, kids, activity, rock,camera,video);
+                double dtotal = calculatePrice(own, adultRent, spe, kidsRent, kidsWalk, activity, rock,camera,video);
                 String tvtotal = String.valueOf(dtotal);
                 tv_total.setText(tvtotal);
                 if (video.length()!=0){
@@ -591,19 +684,36 @@ public class OneTimeFragment extends Fragment {
         return root;
     }
 
-    private double calculatePrice(String own,String rent, String spe, String kids, String activity, String rock, String camera, String video) {
-        Double down,drent, dspe, dkids,dactivity,drock,dcamera,dvideo,dtotal = 0.0;
+    private double calculatePrice(String own,String rent, String spe, String kidsRent, String kidsWalk, String activity, String rock, String camera, String video) {
+        Double down,drent, dspe, dkids, dkidsw, dactivity, drock, dcamera, dvideo, dtotal = 0.0;
 
-        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("MyPrefOne", MODE_PRIVATE);
-        String ownCycle = sharedPreferences.getString("ownCycle", null);
-        String RentalCycle = sharedPreferences.getString("RentalCycle", null);
-        String SpeCycle = sharedPreferences.getString("SpeCycle", null);
-        String kidsCycle = sharedPreferences.getString("kidsCycle", null);
-        String sactivity = sharedPreferences.getString("activity", null);
-        String srock = sharedPreferences.getString("rock", null);
-        String scamera = sharedPreferences.getString("camera", null);
-        String svideo = sharedPreferences.getString("video", null);
+        /*SharedPreferences sharedPreferences2 = getActivity().getSharedPreferences("MyPref", MODE_PRIVATE);
+        eventID = sharedPreferences2.getString("peventID", "");
+        if(eventID.equalsIgnoreCase("DRCV")) {
 
+            SharedPreferences sharedPreferences = getActivity().getSharedPreferences("MyPrefOne", MODE_PRIVATE);
+            String ownCycle = sharedPreferences.getString("ownCycle", null);
+            String RentalCycle = sharedPreferences.getString("RentalCycle", null);
+            String SpeCycle = sharedPreferences.getString("SpeCycle", null);
+            String kidsCycle = sharedPreferences.getString("kidsCycle", null);
+            String sactivity = sharedPreferences.getString("activity", null);
+            String srock = sharedPreferences.getString("rock", null);
+            String scamera = sharedPreferences.getString("camera", null);
+            String svideo = sharedPreferences.getString("video", null);
+
+        }else if(eventID.equalsIgnoreCase("PPCP")){
+
+            SharedPreferences sharedPreferences = getActivity().getSharedPreferences("MyPrefOne", MODE_PRIVATE);
+            String ownCycle = sharedPreferences.getString("ownCycle", null);
+            String RentalCycle = sharedPreferences.getString("RentalCycle", null);
+            String SpeCycle = sharedPreferences.getString("SpeCycle", null);
+            String kidsCycle = sharedPreferences.getString("kidsCycle", null);
+            String sactivity = sharedPreferences.getString("activity", null);
+            String srock = sharedPreferences.getString("rock", null);
+            String scamera = sharedPreferences.getString("camera", null);
+            String svideo = sharedPreferences.getString("video", null);
+
+        }*/
         int aown = Integer.parseInt(ownCycle);
         int arent = Integer.parseInt(RentalCycle);
         int aspe = Integer.parseInt(SpeCycle);
@@ -633,12 +743,20 @@ public class OneTimeFragment extends Fragment {
             dspe = Double.parseDouble(spe);
             dspe = dspe*aspe;
         }
-        if (kids.length()==0){
+        if (kidsRent.length()==0){
             dkids = 0.0;
         }else {
-            dkids = Double.parseDouble(kids);
+            dkids = Double.parseDouble(kidsRent);
             dkids = dkids*akids;
         }
+
+        if (kidsWalk.length()==0){
+            dkidsw = 0.0;
+        }else {
+            dkidsw = Double.parseDouble(kidsWalk);
+            dkidsw = dkidsw*akids;
+        }
+        
         if (activity.length()==0){
             dactivity = 0.0;
         }else {
@@ -669,12 +787,6 @@ public class OneTimeFragment extends Fragment {
             dvideo = dvideo*avideo;
         }
 
-        return down+drent+dspe+dkids+dactivity+drock+dcamera+dvideo;
+        return down+drent+dspe+dkids+dkidsw+dactivity+drock+dcamera+dvideo;
     }
-
-
-
-
-
-
 }

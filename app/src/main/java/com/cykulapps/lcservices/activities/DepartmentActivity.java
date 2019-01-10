@@ -70,6 +70,7 @@ public class DepartmentActivity extends AppCompatActivity implements ParkAdapter
     EventModel eventModel;
     RequestQueue requestQueue;
     private int CAMERA_PERMISSION_CODE=1;
+    String userType;
 
 
     @Override
@@ -80,12 +81,16 @@ public class DepartmentActivity extends AppCompatActivity implements ParkAdapter
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setElevation(0);
+        userType=Prefs.getString("userType","");
+
+        if(userType.equalsIgnoreCase("admin") || userType.equalsIgnoreCase("tester")) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
+
         recyclerView = findViewById(R.id.recyclerView);
         this.context = this;
         eventModelArrayList = new ArrayList<>();
-        //Picasso.with(DepartmentActivity.this).setLoggingEnabled(true);
-
-        // createRecyclerView();
 
         if(isCameraAllowed())
         {
@@ -164,8 +169,15 @@ public class DepartmentActivity extends AppCompatActivity implements ParkAdapter
                 SharedPreferences sharedPreferences = getSharedPreferences("MyPref", MODE_PRIVATE);
                 String id = sharedPreferences.getString("rowID", null);
                 Prefs.logoutUser(getApplicationContext()); //added
+                PrefController.savePrefs("calledDRCV",0,DepartmentActivity.this);
+                PrefController.savePrefs("calledPPCP",0,DepartmentActivity.this);
+                startActivity(new Intent(getApplicationContext(), LoginActivity.class));
                 Log.e("rowID", id+"");
                 sendData(logoutTime, id);
+                break;
+
+            default:
+                return super.onOptionsItemSelected(item);
 
         }
         return true;
@@ -324,7 +336,6 @@ public class DepartmentActivity extends AppCompatActivity implements ParkAdapter
 
                                 } else {
                                     Toast.makeText(DepartmentActivity.this, reportStatus, Toast.LENGTH_SHORT).show();
-
                                 }
 
                             } catch (Exception e) {
@@ -362,7 +373,6 @@ public class DepartmentActivity extends AppCompatActivity implements ParkAdapter
             startActivity(new Intent(getApplicationContext(), AdminMainActivity.class));
         }else {
             new android.support.v7.app.AlertDialog.Builder(this)
-                    //.setTitle("Really Exit?")
                     .setMessage("Logout?")
                     .setNegativeButton(android.R.string.no, null)
                     .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
@@ -373,6 +383,8 @@ public class DepartmentActivity extends AppCompatActivity implements ParkAdapter
                             SharedPreferences sharedPreferences = getSharedPreferences("MyPref", MODE_PRIVATE);
                             String id = sharedPreferences.getString("rowID", null);
                             Prefs.logoutUser(getApplicationContext()); //added
+                            PrefController.savePrefs("calledDRCV",0,DepartmentActivity.this);
+                            PrefController.savePrefs("calledPPCP",0,DepartmentActivity.this);
                             startActivity(new Intent(getApplicationContext(), LoginActivity.class));
                             Log.e("rowID", id+"");
                             sendData(logoutTime, id);
@@ -380,6 +392,12 @@ public class DepartmentActivity extends AppCompatActivity implements ParkAdapter
                         }
                     }).create().show();
         }
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 
 }
