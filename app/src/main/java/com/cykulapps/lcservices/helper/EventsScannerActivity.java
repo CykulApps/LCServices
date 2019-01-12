@@ -36,6 +36,7 @@ import com.cykulapps.lcservices.R;
 import com.cykulapps.lcservices.activities.QRCodeResultsActivity;
 import com.cykulapps.lcservices.common.Prefs;
 import com.cykulapps.lcservices.overrideFonts;
+import com.google.gson.JsonArray;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -155,6 +156,18 @@ public class EventsScannerActivity extends AppCompatActivity implements ZBarScan
     public void onPause() {
         super.onPause();
         mScannerView.stopCamera();           // Stop camera on pause
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mScannerView.stopCamera();
     }
 
     @Override
