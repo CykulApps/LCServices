@@ -67,7 +67,6 @@ public class SubDepartmentActivity extends AppCompatActivity implements ParkAdap
         eventModelArrayList = new ArrayList<>();
         requestQueue = Volley.newRequestQueue(context);
 
-
         SharedPreferences sharedPreferences = getSharedPreferences("MyPref", MODE_PRIVATE);
         eventIDPrent = sharedPreferences.getString("peventID", "");
         String departID = sharedPreferences.getString("pdepartID", "");
@@ -178,24 +177,32 @@ public class SubDepartmentActivity extends AppCompatActivity implements ParkAdap
         editor2.putString("category",deptName);
         editor2.apply();
 
-        if (category.equals("Ticketing"))
-        {
+        int calledDRCV = PrefController.loadPreferences("calledDRCV", 0, SubDepartmentActivity.this);
+        int calledPPCP = PrefController.loadPreferences("calledPPCP", 0, SubDepartmentActivity.this);
 
-           int calledDRCV = PrefController.loadPreferences("calledDRCV",0,SubDepartmentActivity.this);
-           int calledPPCP = PrefController.loadPreferences("calledPPCP",0,SubDepartmentActivity.this);
+        switch (category) {
 
-            if(calledDRCV==0 || calledPPCP==0){
-               Log.e("jsoncalled","if");
-               getPrices(eventID,departID);
-           }else{
-               Log.e("jsoncalled","else");
-               Intent intent1=new Intent(SubDepartmentActivity.this,HomeActivity.class);
-               startActivity(intent1);
-           }
-        }else if (category.equals("Scan")){
-            startActivity(new Intent(this, ParksScannerActivity.class).putExtra("eventID",eventID).putExtra("departID", departID));
-        }else if (category.equals("Asset")){
-            startActivity(new Intent(this, SubActivities.class).putExtra("eventID",eventID).putExtra("departID", departID));
+            case "Ticketing":
+
+                if (calledDRCV == 0 || calledPPCP == 0) {
+                    Log.e("jsoncalled", "if");
+                    getPrices(eventID, departID);
+
+                } else {
+                    Log.e("jsoncalled", "else");
+                    Intent intent1 = new Intent(SubDepartmentActivity.this, HomeActivity.class);
+                    startActivity(intent1);
+                }
+                break;
+
+            case "Scan":
+                startActivity(new Intent(this, ParksScannerActivity.class).putExtra("eventID", eventID).putExtra("departID", departID));
+                break;
+
+            case "Asset":
+                startActivity(new Intent(this, SubActivities.class).putExtra("eventID", eventID).putExtra("departID", departID));
+                break;
+
         }
     }
 
@@ -319,7 +326,7 @@ public class SubDepartmentActivity extends AppCompatActivity implements ParkAdap
                                     JSONObject annualObject = jsonObject.getJSONObject("annual");
 
                                     String ownCycle = oneTimeObject.getString("ownCycle");
-                                    String adultParkCycle = oneTimeObject.getString("RentalCycle"); //new
+                                    String adultParkCycle = oneTimeObject.getString("RentalCycle");
                                     String SpeCycle = oneTimeObject.getString("SpeCycle");
                                     String kidsCycle = oneTimeObject.getString("kidsCycle");
                                     String kidsWalk = oneTimeObject.getString("kidsWak");
@@ -388,6 +395,9 @@ public class SubDepartmentActivity extends AppCompatActivity implements ParkAdap
                                     intent.putExtra("eventID", eventID);
                                     intent.putExtra("departID", departID);
                                     startActivity(intent);
+
+                                }else{
+                                    Toast.makeText(context, "something went wrong from server side...", Toast.LENGTH_SHORT).show();
                                 }
 
                             } catch (JSONException e) {
