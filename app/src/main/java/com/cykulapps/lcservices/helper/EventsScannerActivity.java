@@ -159,12 +159,6 @@ public class EventsScannerActivity extends AppCompatActivity implements ZBarScan
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
-
-    }
-
-    @Override
     protected void onDestroy() {
         super.onDestroy();
         mScannerView.stopCamera();

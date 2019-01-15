@@ -83,7 +83,7 @@ public class EventsSubActivity extends AppCompatActivity {
 
         Log.e("userType","userType"+userType);
 
-        sentRequest_for_image();
+        getData();
     }
 
     public boolean onCreateOptionsMenu(Menu menu)
@@ -155,7 +155,7 @@ public class EventsSubActivity extends AppCompatActivity {
         }
     }
 
-    private void sentRequest_for_image() {
+    private void getData() {
         if (Utils.isNetConnected(this)) {
             progressDialog = new ProgressDialog(this);
             progressDialog.show();

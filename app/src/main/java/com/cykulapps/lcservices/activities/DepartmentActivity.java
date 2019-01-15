@@ -171,7 +171,7 @@ public class DepartmentActivity extends AppCompatActivity implements ParkAdapter
                 Prefs.logoutUser(getApplicationContext()); //added
                 PrefController.savePrefs("calledDRCV",0,DepartmentActivity.this);
                 PrefController.savePrefs("calledPPCP",0,DepartmentActivity.this);
-                startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+                //startActivity(new Intent(getApplicationContext(), LoginActivity.class));
                 Log.e("rowID", id+"");
                 sendData(logoutTime, id);
                 break;
@@ -385,7 +385,7 @@ public class DepartmentActivity extends AppCompatActivity implements ParkAdapter
                             Prefs.logoutUser(getApplicationContext()); //added
                             PrefController.savePrefs("calledDRCV",0,DepartmentActivity.this);
                             PrefController.savePrefs("calledPPCP",0,DepartmentActivity.this);
-                            startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+                            //startActivity(new Intent(getApplicationContext(), LoginActivity.class));
                             Log.e("rowID", id+"");
                             sendData(logoutTime, id);
                                 finish();

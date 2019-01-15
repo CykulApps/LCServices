@@ -126,7 +126,7 @@ public class LoginActivity extends AppCompatActivity {
                             Log.e("responseLogin==>", response);
 
                             try {
-                                progressDialog.dismiss();
+
                                 JSONObject jsonObject = new JSONObject(response);
                                 String result = jsonObject.getString(Constants.RESULT_STATUS);
                                 String reportStatus = jsonObject.getString(Constants.REPORT_STATUS);
@@ -140,6 +140,7 @@ public class LoginActivity extends AppCompatActivity {
 
                                 if (userType.equals("vendor") && result.equals(Constants.TRUE))
                                 {
+                                    progressDialog.dismiss();
                                     Prefs.putString(Prefs.COUNTRY, country);
                                     Prefs.putBoolean(Prefs.LOGGED_IN_VENDEOR, true);
                                     Prefs.putString("eventID",eventID);
@@ -152,6 +153,7 @@ public class LoginActivity extends AppCompatActivity {
 
                                 } else if(userType.equals("admin") && result.equals(Constants.TRUE))
                                 {
+                                    progressDialog.dismiss();
                                     eventID = "NA";
                                     Prefs.putString(Prefs.COUNTRY, country);
                                     Prefs.putBoolean(Prefs.LOGGED_IN, true);
@@ -162,6 +164,7 @@ public class LoginActivity extends AppCompatActivity {
                                     Log.e("result", "" + result);
 
                                 }else if(userType.equals("tester") && result.equals(Constants.TRUE)){
+                                    progressDialog.dismiss();
                                     eventID = "NA";
                                     Prefs.putString(Prefs.COUNTRY, country);
                                     Prefs.putBoolean(Prefs.LOGGED_IN, true);
@@ -179,8 +182,7 @@ public class LoginActivity extends AppCompatActivity {
                                 e.printStackTrace();
                             }
                         }
-                    },
-                    new Response.ErrorListener() {
+                    }, new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError error) {
                             progressDialog.dismiss();
@@ -210,10 +212,6 @@ public class LoginActivity extends AppCompatActivity {
     //check for park
     private void checkParkCode() {
         if (Utils.isNetConnected(this)) {
-            progressDialog = new ProgressDialog(this);
-            progressDialog.setMessage("Please wait...");
-            progressDialog.show();
-
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN
                     && Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT) {
@@ -283,7 +281,7 @@ public class LoginActivity extends AppCompatActivity {
                     }) {
                 @Override
                 protected Map<String, String> getParams() {
-                    Map<String, String> params = new HashMap<String, String>();
+                    Map<String, String> params = new HashMap<>();
                     params.put("userName", userName);
                     params.put("password", passWord);
                     params.put("loginTime",loginTime);
