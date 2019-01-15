@@ -62,6 +62,7 @@ public class SubDepartmentActivity extends AppCompatActivity implements ParkAdap
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         recyclerView = findViewById(R.id.recyclerView);
         this.context = this;
         eventModelArrayList = new ArrayList<>();
